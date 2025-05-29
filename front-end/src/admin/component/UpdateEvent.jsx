@@ -63,7 +63,7 @@ function UpdateEvent() {
     });
 
     try {
-      await axios.put(`https://e-backned.onrender.com/api/events/${id}/update`, formData, {
+      await axios.put(`http://localhost:5000/api/events/${id}/update`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Event updated successfully!");
