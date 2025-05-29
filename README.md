@@ -1,0 +1,4 @@
+.env
+{PORT=
+MONGO_URI= 
+JWT_SECRET= }
