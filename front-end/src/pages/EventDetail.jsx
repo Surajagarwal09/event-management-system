@@ -20,7 +20,7 @@ function EventDetail() {
   const fetchEventDetails = async () => {
     try {
       const response = await axios.get(
-        `https://e-backned.onrender.com/api/events/${id}`
+        `http://localhost:5000/api/events/${id}`
       );
       setEvent(response.data);
 
