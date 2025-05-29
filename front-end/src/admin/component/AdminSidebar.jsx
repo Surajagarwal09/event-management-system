@@ -27,7 +27,7 @@ function AdminSidebar() {
       <h2>Hello, {adminName}</h2><hr className="adminhr"/>
       <nav>
         <ul>
-          <li className={isActive("/") ? "active" : ""}>
+          <li className={isActive("/admin/dashboard") ? "active" : ""}>
             <Link to="/admin/dashboard">Dashboard &nbsp;<FontAwesomeIcon icon={faTachometerAlt} /></Link>
           </li>
           <li className={isActive("/admin/events") ? "active" : ""}>

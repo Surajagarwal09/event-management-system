@@ -197,7 +197,7 @@ function Navbar() {
                 <FontAwesomeIcon icon={faClipboardList} /> My Registrations
               </Link>
 
-              <button className="dashboard" onClick={() => { setShowAdminLogin(true); setShowSidebar(false); }}>
+              <button className="dashboardbut" onClick={() => { setShowAdminLogin(true); setShowSidebar(false); }}>
               <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
               </button>
             </div>

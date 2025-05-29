@@ -13,7 +13,7 @@ function AdminEventDetails() {
 
   const fetchEventDetails = async () => {
     try {
-      const response = await axios.get(`https://e-backned.onrender.com/api/events/${id}`);
+      const response = await axios.get(`http://localhost:5000/api/events/${id}`);
       setEvent(response.data);
     } catch (error) {
       console.error("Error fetching event details:", error);
@@ -27,7 +27,7 @@ function AdminEventDetails() {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        await axios.delete(`https://e-backned.onrender.com/api/events/${id}/delete`);
+        await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
         alert("Event deleted successfully");
         navigate("/admin/events");
       } catch (error) {
