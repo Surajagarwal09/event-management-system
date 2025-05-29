@@ -1,0 +1,76 @@
+.sregistration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 1000;
+    padding: 0px;
+}
+
+.sregistration-form {
+    background-color:#151b23;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 370px;
+    width: 200%;
+}
+.sregistration-form label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.sregistration-form input {
+    min-width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.submit-btn button {
+    background-color: #238636;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: transform 0.2s ease;
+}
+
+.submit-btn button:hover {
+    background: #53d05a;
+    color: white;
+    text-decoration: none;
+}
+
+.sreg-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn button:active {
+    transform: scale(0.96);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+.login-link button {
+    background: none;
+    border: none;
+    color: white;
+}
+.login-link button:hover {
+    text-decoration: underline;
+}

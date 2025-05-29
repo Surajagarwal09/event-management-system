@@ -1,0 +1,121 @@
+body {
+    background-color: #0d1117;
+}
+
+.user-event-card-lists {
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
+}
+
+.user-event-card {
+    transition: transform 0.2s ease;
+}
+
+.user-event-card:hover {
+    transform: scale(1.05);
+}
+
+.user-event-card-lists h1 {
+    color: white;
+    margin-left: 35px;
+    margin-top: 50px;
+}
+
+.user-event-cards {
+    margin-top: -30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 30px;
+}
+
+.user-event-card-content {
+    background-color: #151b23;
+    color: rgb(255, 255, 255);
+    margin-top: -30px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 5px;
+}
+
+.user-event-card img {
+    width: 100%;
+    height: 250px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+}
+
+.user-event-card-content h2 {
+    margin-left: 4px;
+    margin-top: 30px;
+    font-size: 1.3rem;
+}
+
+.user-left-content {
+    margin-left: 5px;
+}
+
+.user-card-desc {
+    font-size: 15.2px;
+}
+
+.user-card-date,
+.user-card-location {
+    font-size: 17px;
+}
+
+.user-card-date {
+    margin-top: -8px;
+}
+
+.user-card-location {
+    margin-top: -12px;
+}
+
+.user-card-date::before {
+    content: "Date: ";
+    font-weight: bold;
+}
+
+.user-card-location::before {
+    content: "Location: ";
+    font-weight: bold;
+}
+
+.user-card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -10px;
+    padding: 5px;
+}
+
+.user-card-button button {
+    background-color: #238636;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    padding: 6px;
+    min-width: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.user-card-button button:active {
+    transform: scale(0.96);
+}
+
+.user-no-events-message {
+    color: #837474;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 120px;
+    font-size: 35px;
+}

@@ -1,0 +1,123 @@
+.admin-events {
+    margin-left: 140px;
+    padding: 20px;
+    background-color: #0d1117;
+}
+
+.admin-event-card-lists {
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 50px;
+}
+
+.admin-event-card-header {
+    color: white;
+    font-size: 2rem;
+    margin-left: 35px;
+    margin-top: 50px;
+}
+
+.admin-event-cards {
+    margin-top: -30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.admin-event-card {
+    transition: transform 0.2s ease;
+    background-color: #151b23;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-event-card:hover {
+    transform: scale(1.05);
+}
+
+.admin-event-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.admin-event-card-content {
+    background-color: #151b23;
+    color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+}
+
+.admin-card-title {
+    margin-top: -5px;
+    /* text-align: center; */
+    font-size: 1.3rem;
+}
+
+
+.admin-card-date {
+    font-size: 17px;
+    margin-top: -3px;
+}
+
+.admin-card-location {
+    font-size: 17px;
+    margin-top: -15px;
+}
+
+.admin-card-date::before {
+    content: "Date: ";
+    font-weight: bold;
+}
+
+.admin-card-location::before {
+    content: "Location: ";
+    font-weight: bold;
+}
+
+.admin-card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -10px;
+    padding: 5px;
+}
+
+.admin-card-button button {
+    background-color: #238636;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    padding: 6px;
+    min-width: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.admin-card-button button:active {
+    transform: scale(0.96);
+}
+
+.admin-no-events-container {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 120px;
+}
+
+.admin-no-events-message {
+    color: #837474;
+    font-size: 35px;
+}
+
+.admin-event-content filter{
+    margin-top: 0px;
+}

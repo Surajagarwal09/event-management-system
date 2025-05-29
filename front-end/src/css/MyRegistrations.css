@@ -1,0 +1,88 @@
+.myregistration {
+    margin-top: 90px;
+}
+
+.myregistration h1 {
+    color: #ffffff;
+    padding: 10px;
+    font-size: 2rem;
+}
+
+.myregister-header {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.myreg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: aliceblue;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.myregistration-card {
+    border: 1px solid #313c49;
+    background-color: #151b232e;
+    min-width: 50vw;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.myregistration-card:hover {
+    background-color: #151b23;
+}
+
+.myreg-details {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.myregistration-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.myregistration-card p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+}
+
+.myregistration-card button {
+    background-color: transparent;
+    text-align: center;
+    align-items: center;
+    border: none;
+    border-radius: 20px;
+    color: red;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.myregistration-card button:hover{
+    text-decoration: underline;
+}
+.myregistration-card button:active {
+    transform: scale(0.95);
+}
+
+
+.registration-card button:hover {
+    opacity: 0.9;
+}
+
+.no-event {
+    text-align: center;
+    margin-top: 200px;
+    color: #ffffff;
+    font-size: 20px;
+}
