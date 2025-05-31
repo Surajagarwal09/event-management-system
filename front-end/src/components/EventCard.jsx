@@ -18,21 +18,28 @@ function EventCard({ events }) {
       ) : (
         <div className="user-event-cards">
           {events.map((event, index) => (
-            <div key={index} className="user-event-card">
-              <img src={`http://localhost:5000/${event.coverImage}`} alt="Event" />
+            <div
+              key={index}
+              className="user-event-card"
+              onClick={() => navigate(`/EventDetails/${event._id}`)}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="image-date">
+                <img
+                  src={`http://localhost:5000/${event.coverImage}`}
+                  alt="Event"
+                />
+                <div className="date-div">
+                  <p className="user-card-date">
+                    Date: {new Date(event.eventDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
               <div className="user-event-card-content">
                 <h2 className="user-card-title">{event.eventName}</h2>
                 <div className="user-left-content">
+                  <p className="user-card-location">Location: {event.location}</p>
                   <p className="user-card-desc">{event.Homedescription}</p>
-                  <p className="user-card-date">
-                    {new Date(event.eventDate).toLocaleDateString()}
-                  </p>
-                  <p className="user-card-location">{event.location}</p>
-                </div>
-                <div className="user-card-button">
-                  <button onClick={() => navigate(`/EventDetails/${event._id}`)}>
-                    View Details
-                  </button>
                 </div>
               </div>
             </div>

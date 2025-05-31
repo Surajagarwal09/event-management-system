@@ -53,8 +53,8 @@
 .housebut {
     color: white;
     padding: 5px;
+    font-size: 20px;
     text-decoration: none;
-    border: 1px solid;
     border-radius: 10px;
     align-items: center;
     text-align: center;
@@ -211,4 +211,14 @@
 .active-link {
     background-color: #4a5e78;
     color: #2ef72e;
+}
+
+@media (max-width:760px){
+    .housebut{
+        margin-left: -20px;
+        font-size: 17px;
+    }
+    .Navbar h3{
+        font-size: 18px;
+    }
 }

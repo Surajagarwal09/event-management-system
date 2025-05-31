@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse,faUser,faBars,faTachometerAlt,faClipboardList, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDay,faUser,faBars,faTachometerAlt,faClipboardList, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import "../css/Navbar.css";
 import Modal from "./Modal";
@@ -101,7 +101,7 @@ function Navbar() {
           <ul className="homebut">
             <li>
               <Link to="/" className="housebut">
-                <FontAwesomeIcon icon={faHouse} /> Events
+                <FontAwesomeIcon icon={faCalendarDay} /> Events
               </Link>
             </li>
           </ul>
