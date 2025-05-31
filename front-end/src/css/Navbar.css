@@ -5,7 +5,6 @@
     left: 0;
     z-index: 1000;
     width: 100%;
-    
 }
 
 .Navbar nav {
@@ -79,8 +78,8 @@
 }
 
 .navul button:hover {
-    color: #38bdf8;
-    text-decoration: underline solid #38bdf8;
+    color: #ffffff;
+    text-decoration: underline solid #2ef72e;
 }
 
 .navul button:active {
@@ -213,12 +212,18 @@
     color: #2ef72e;
 }
 
-@media (max-width:760px){
+.authbutton{
+    text-decoration: underline solid #2ef72e;
+}
+
+@media (max-width:770px){
     .housebut{
         margin-left: -20px;
         font-size: 17px;
     }
     .Navbar h3{
-        font-size: 18px;
+        font-size: 20px;
+        margin-top: 10px;
     }
+    
 }
