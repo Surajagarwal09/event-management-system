@@ -47,16 +47,18 @@ const handleSearch = async () => {
   return (
     <div className="filter">
       <div className="searchbar">
+        <div className="bgcolor">
         <input
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search Events"
+          placeholder="Find Events That You Love"
         />
         <button onClick={handleSearch}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} /> Search
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
-      </div>
+        </div>
+        </div>
       <div className="date-loc">
         <input
           type="date"

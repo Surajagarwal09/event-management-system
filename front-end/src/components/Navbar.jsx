@@ -105,22 +105,22 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          <h3>Events That Match Your Vibe</h3>
+          <h3>Events for You</h3>
           <ul className="navul">
             {fullname ? (
               <li className="user-info" onClick={toggleSidebar}>
                 <span>
-                  <FontAwesomeIcon icon={faUser} /> Hi, {fullname}
+                  <FontAwesomeIcon icon={faUser} /> Profile
                 </span>
               </li>
             ) : (
               <>
-                <li>
+                <li className="signin-out">
                   <button
                     onClick={() => setShowLoginRegistration(true)}
                     className="auth-button"
                   >
-                    Sign In / Sign Up
+                    Sign In
                   </button>
                 </li>
                 <li className="hamburger-menu" onClick={toggleSidebar}>

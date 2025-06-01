@@ -1,7 +1,7 @@
 .Navbar {
     background-color: #151b23;
     position: fixed;
-    top: 0; 
+    top: 0;
     left: 0;
     z-index: 1000;
     width: 100%;
@@ -17,7 +17,8 @@
     color: #ffffff;
     font-size: 22px;
     font-weight: bold;
-    margin-left: 30px;
+    margin-top: 10px;
+
 }
 
 .navul {
@@ -212,18 +213,92 @@
     color: #2ef72e;
 }
 
-.authbutton{
-    text-decoration: underline solid #2ef72e;
+.signin-out button {
+    background-color: #166616;
+    border-radius: 5px;
+    padding: 1px;
+    width: 80px;
 }
 
-@media (max-width:770px){
-    .housebut{
+.signin-out button:hover {
+    background-color: #1f8e1f;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.signin-out button:active {
+    transform: scale(0.96);
+
+}
+
+
+@media (max-width:770px) {
+    .Navbar{
+        height: 65px;
+    }
+    .housebut {
         margin-left: -20px;
-        font-size: 17px;
+    }
+
+    .user-info span {
+        margin-right: -20px;
+        font-size: 16px;
+    }
+
+    .signin-out button {
+        margin-right: -15px;
+        margin-top: 1px;
+        font-size: 16px;
+        height: 28px;
+        width: 70px;
+    }
+
+    .hamburger-menu button {
+        margin-right: -40px;
+    }
+
+}
+
+@media(max-width:515px){
+    .sidebar{
+        width: 200px;
     }
     .Navbar h3{
-        font-size: 20px;
-        margin-top: 10px;
+        font-size: 17px;
+        margin-top: 5px;
     }
-    
+    .housebut{
+        font-size: 16px;
+    }
+    .signin-out button{
+        font-size: 14px;
+        width: 55px;
+        margin-top: -4px;
+    }
+
+}
+
+@media(max-width:400px){
+    .Navbar h3{
+        margin-top: 6px;
+    }
+    .signin-out button{
+        font-size: 14px;
+        margin-top: 0px;
+    }
+
+}
+
+ @media(max-width:380px){
+    .Navbar h3{
+        font-size: 16px;
+        margin-top: 6px;
+        margin-left: 10px;
+    }
+
+    .signin-out button{
+        font-size: 14px;
+        margin-top: 0px;
+    } 
+
 }

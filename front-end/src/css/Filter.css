@@ -1,31 +1,45 @@
-.filter{
+.filter {
     margin-top: 90px;
 }
 
-.searchbar{
+.searchbar {
     display: flex;
-    gap: 5px;
     justify-content: center;
     align-items: center;
+
 }
-.searchbar input{
+
+.bgcolor {
+    background-color: #212c39;
+    border: 1px solid #6291ca;
+    border-radius: 6px;
+}
+
+.searchbar input {
     min-width: 400px;
     min-height: 35px;
-    border-radius: 6px;
     background-color: #212c39;
     color: white;
-    border: 1px solid #6291ca;
+    border-radius: 6px;
+    border: none;
     font-size: 16px;
     padding: 5px;
 }
-.date-loc{
+
+.searchbar input:focus {
+    border: none;
+    outline: none;
+}
+
+.date-loc {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-top: 10px;
     margin-left: -50px;
 }
-.date-loc input{
+
+.date-loc input {
     background-color: #212c39;
     color: white;
     padding: 5px;
@@ -35,17 +49,19 @@
     cursor: text;
 }
 
-.date-loc select{
+.date-loc select {
     background-color: #212c39;
     color: aliceblue;
     cursor: pointer;
     border: none;
     border-radius: 5px;
 }
-.date-loc select option{
+
+.date-loc select option {
     cursor: pointer;
 }
-.searchbar button{
+
+.searchbar button {
     background-color: #212c39;
     border: none;
     border-radius: 5px;
@@ -53,8 +69,70 @@
     padding: 5px;
     cursor: pointer;
     transition: transform 0.2s ease;
+    margin-right: 10px;
 }
 
-.searchbar button:active{
+.searchbar button:active {
     transform: scale(0.96);
+}
+
+.searchbar button:hover {
+    color: chartreuse;
+}
+
+@media(max-width:769px) {
+
+    .searchbar input {
+        min-width: 350px;
+    }
+
+    .date-loc input {
+        width: 130px;
+    }
+
+    .date-loc select {
+
+        width: 130px;
+    }
+}
+
+@media(max-width:560px) {
+
+    .searchbar input {
+        min-width: 300px;
+    }
+
+    .date-loc input {
+        margin-left: 40px;
+    }
+
+    .searchbar button {
+        margin-right: 5px;
+    }
+
+    .date-loc option {
+        width: 50px;
+        font-size: 14px;
+    }
+
+    .date-loc input[type="date"] {
+        width: 120px;
+    }
+
+    ::-webkit-calendar-picker-indicator {
+        font-size: 14px;
+    }
+}
+
+@media(max-width:426px) {
+
+    .searchbar input {
+        min-width: 250px;
+    }
+
+    .date-loc input,
+    .date-loc select {
+        font-size: 14px;
+        width: 120px;
+    }
 }
