@@ -29,6 +29,11 @@ function AdminEvents() {
     setFilteredEvents(filteredData.length ? filteredData : []);
   };
 
+  const handledetailslink = (eventId,e) => {
+    e.preventDefault();
+    navigate(`/admin/events/details/${eventId}`);
+  }
+
   return (
     <div className="admin-event-card-lists">
       <AdminSidebar />
@@ -47,9 +52,9 @@ function AdminEvents() {
           <div className="admin-event-cards">
             {filteredEvents.map((event, index) => (
               <div
-                key={index}
+                key={event._id}
                 className="admin-event-card"
-                onClick={() => navigate(`/admin/events/details/${event._id}`)}
+                onClick={(e)=>handledetailslink(event._id,e)}
                 style={{ cursor: "pointer" }}
               >
                 <div className="admin-image-date">

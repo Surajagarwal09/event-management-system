@@ -24,6 +24,32 @@
   margin-left: 30px;
 }
 
+.previous1-button {
+  display: flex;
+  min-width: 70px;
+  max-height: 20px;
+  min-height: 30px;
+  margin-top: 23px;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: rgba(9, 93, 9, 0.69);
+  border: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  color: aliceblue;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.previous1-button:hover {
+  background-color: green;
+}
+
+.previous1-button:active {
+  transform: scale(0.96);
+}
+
 .admin-event-images .carousel {
   width: 50vw;
   max-width: 100%;
@@ -189,7 +215,6 @@
   .mobile-only {
     display: none;
   }
-
 }
 
 @media (max-width: 937px) {
@@ -199,6 +224,9 @@
   }
 
   .admin-event-actions {
+    display: none;
+  }
+   .previous1-button{
     display: none;
   }
 
@@ -285,7 +313,7 @@
 @media (max-width: 701px) {
   .admin-event-images .carousel {
     margin-bottom: 10px;
-     max-height: 315px !important;
+    max-height: 315px !important;
     min-height: 315px !important;
   }
 

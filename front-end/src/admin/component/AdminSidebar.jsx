@@ -13,7 +13,7 @@ import {
   faFileLines,
   faUser,
   faLocationCrosshairs,
-  faLocationDot
+  faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 
 function AdminSidebar() {
@@ -64,7 +64,28 @@ function AdminSidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    const current = location.pathname;
+
+    if (
+      path === "/admin/events" &&
+      (current === "/admin/events" ||
+        current.includes("/admin/events/details/") ||
+        current.includes("/admin/events/update/"))
+    ) {
+      return true;
+    }
+
+    if (
+      path === "/admin/users" &&
+      (current === "/admin/users" || current.includes("/admin/users/"))
+    ) {
+      return true;
+    }
+
+    return current == path;
+
+  };
 
   return (
     <>
@@ -96,23 +117,6 @@ function AdminSidebar() {
                 <FontAwesomeIcon icon={faListUl} />
               </Link>
             </li>
-            {location.pathname.includes("/admin/events/details/") && (
-              <li className="active">
-                <Link to={location.pathname}>
-                  Event &nbsp;
-                  <FontAwesomeIcon icon={faFileLines} />
-                </Link>
-              </li>
-            )}
-
-            {location.pathname.includes("/admin/events/update/") && (
-              <li className="active">
-                <Link to={location.pathname}>
-                  Update Event &nbsp;
-                  <FontAwesomeIcon icon={faFilePen} />
-                </Link>
-              </li>
-            )}
             <li className={isActive("/admin/events/new") ? "active" : ""}>
               <Link to="/admin/events/new">
                 Add New Event &nbsp;
@@ -125,7 +129,9 @@ function AdminSidebar() {
                 <FontAwesomeIcon icon={faLocationDot} />
               </Link>
             </li>
-            <li className={isActive("/admin/events/Addlocation") ? "active" : ""}>
+            <li
+              className={isActive("/admin/events/Addlocation") ? "active" : ""}
+            >
               <Link to="/admin/events/Addlocation">
                 Add New Location &nbsp;
                 <FontAwesomeIcon icon={faLocationCrosshairs} />
@@ -137,14 +143,6 @@ function AdminSidebar() {
                 <FontAwesomeIcon icon={faUsers} />
               </Link>
             </li>
-            {location.pathname.includes("admin/users/") && (
-              <li className="active">
-                <Link to={location.pathname}>
-                  User Details &nbsp;
-                  <FontAwesomeIcon icon={faUser} />
-                </Link>
-              </li>
-            )}
           </ul>
         </nav>
         <div className="logout-button">

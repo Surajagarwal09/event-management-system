@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminSidebar from "../component/AdminSidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faCalendar,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../css/AdminEventDetails.css";
 
@@ -40,7 +44,8 @@ function AdminEventDetails() {
     }
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault();
     navigate(`/admin/events/update/${id}`);
   };
 
@@ -51,6 +56,9 @@ function AdminEventDetails() {
       <AdminSidebar />
       <div className="admin-event-detail">
         <div className="admin-event-detail-h1">
+          <button onClick={() => navigate(-1)} className="previous1-button">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
           <h1>{event.eventName}</h1>
         </div>
         <div className="admin-event-images">
@@ -86,7 +94,7 @@ function AdminEventDetails() {
               data-bs-slide="prev"
             >
               <span className="carousel-control-prev-icon" />
-              <span className="visually-hidden">Previous</span>
+              <span className="visually-hidden">previous1</span>
             </button>
             <button
               className="carousel-control-next"
@@ -134,7 +142,6 @@ function AdminEventDetails() {
           Delete
         </button>
       </div>
-
     </div>
   );
 }

@@ -71,6 +71,9 @@
   background-color: #1e232a;
 }
 
+.user-registration-table tbody tr{
+      cursor: pointer;
+}
 .user-registration-table tbody tr:hover {
   background-color: #2c2f36;
 }
@@ -128,6 +131,7 @@
   .user-registration-table tr {
     display: block;
     font-size: 14px;
+
   }
 
   .user-registration-table thead {
