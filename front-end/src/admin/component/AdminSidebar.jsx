@@ -9,19 +9,19 @@ import {
   faUsers,
   faSignOut,
   faBars,
-  faFilePen,
-  faFileLines,
-  faUser,
   faLocationCrosshairs,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import { useUI } from "../../context/UIContext";
+import { useAdmin } from "../../context/AdminContext";
 
 function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const [adminName, setAdminName] = useState("Admin");
+  const { isSidebarOpen: isOpen, toggleSidebar, setSidebarOpen } = useUI();
+  const { adminName, logout } = useAdmin();
   const sidebarRef = useRef(null);
+
   const currentpagetitle = (path) => {
     if (path === "/admin/dashboard") return "Dashboard";
     if (path === "/admin/events") return "Event List";
@@ -36,18 +36,10 @@ function AdminSidebar() {
 
   const currentPage = currentpagetitle(location.pathname);
 
-  useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    if (name) setAdminName(name);
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("adminName");
+    logout();
     navigate("/");
   };
-
-  const toggleSidebar = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -56,7 +48,7 @@ function AdminSidebar() {
         sidebarRef.current &&
         !sidebarRef.current.contains(e.target)
       ) {
-        setIsOpen(false);
+        setSidebarOpen(false);
       }
     };
 
@@ -84,7 +76,6 @@ function AdminSidebar() {
     }
 
     return current == path;
-
   };
 
   return (

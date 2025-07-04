@@ -1,35 +1,32 @@
 import React, { useState } from "react";
 import "../css/LoginRegistration.css";
 import axios from "axios";
+import { useUser } from "../context/UserContext";
 
-function LoginRegistration({ onClose, openSignup, onLoginSuccess }) {
+function LoginRegistration({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [error, setError] = useState("");
+  const { login } = useUser();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        { email, dob }
-      );
-      console.log(response);
+  e.preventDefault();
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/users/login",
+      { email, dob }
+    );
 
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("fullName", response.data.user.fullname);
+    const { token, user } = response.data;
+    login(token, user.fullname);
 
-      if (onLoginSuccess) {
-        onLoginSuccess(response.data.user.fullname);
-      }
-
-      alert("login successful");
-      onClose();
-    } catch (error) {
-      setError("Invalid email or date of birth");
-      console.log(error);
-    }
-  };
+    alert("Login successful");
+    onClose();
+  } catch (error) {
+    setError("Invalid email or date of birth");
+    console.log(error);
+  }
+};
 
   return (
     <div className="login">

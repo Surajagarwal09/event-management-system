@@ -4,26 +4,37 @@ import axios from "axios";
 import "../css/AdminEvents.css";
 import Filter from "../../components/Filter";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchEventsStart,
+  fetchEventsSuccess,
+  fetchEventsFailure,
+} from "../../redux/EventSlice";
+
 
 function AdminEvents() {
-  const [events, setEvents] = useState([]);
+
+  const dispatch = useDispatch();
+  const { events, loading, error } = useSelector((state) => state.events);
+
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
+      dispatch(fetchEventsStart());
       try {
         const response = await axios.get("http://localhost:5000/api/events");
-        setEvents(response.data);
+        dispatch(fetchEventsSuccess(response.data));
         setFilteredEvents(response.data);
       } catch (error) {
+        dispatch(fetchEventsFailure(error.message));
         console.error("Error fetching events:", error);
       }
-  
-      
+
     };
     fetchEvents();
-  }, []);
+  }, [dispatch]);
 
   const handleFilterChange = (filteredData) => {
     setFilteredEvents(filteredData.length ? filteredData : []);

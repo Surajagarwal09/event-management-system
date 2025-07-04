@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "../../css/LoginRegistration.css";
-
+import { useAdmin } from "../../context/AdminContext";
 import axios from "axios";
 
-function AdminLogin({ onClose, onLoginSuccess, openSignup }) {
+function AdminLogin({ onClose,openSignup }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useAdmin();
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
@@ -16,13 +17,10 @@ function AdminLogin({ onClose, onLoginSuccess, openSignup }) {
         { email, password }
       );
 
-      localStorage.setItem("adminToken", response.data.token);
-      localStorage.setItem("adminName", response.data.admin.fullname);
+      const { token, admin } = response.data;
+      login(token, admin.fullname)
 
       alert("Admin login successful");
-      if (onLoginSuccess) {
-        onLoginSuccess(response.data.admin.fullname);
-      }
       onClose();
       window.location.href = "/admin/dashboard";
     } catch (error) {

@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDay,faUser,faBars,faTachometerAlt,faClipboardList, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { Link, useLocation } from "react-router-dom";
+import {
+  faCalendarDay,
+  faUser,
+  faBars,
+  faTachometerAlt,
+  faClipboardList,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link,useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 import Modal from "./Modal";
 import LoginRegistration from "./LoginRegistration";
 import SignupRegistration from "./SignupRegistration";
 import AdminLogin from "../admin/pages/AdminLogin";
 import AdminSignup from "../admin/pages/AdminSignup";
+import { useUser } from "../context/UserContext";
 
 function Navbar() {
   const [showLoginRegistration, setShowLoginRegistration] = useState(false);
   const [showSignupRegistration, setShowSignupRegistration] = useState(false);
-  const [fullname, setFullname] = useState(null);
+  const { user, logout } = useUser();
   const [showSidebar, setShowSidebar] = useState(false);
   const [sidebarVisible, setSidebarVisibel] = useState(false);
   const location = useLocation();
-
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminSignup, setShowAdminSignup] = useState(false);
-
-  useEffect(() => {
-    const name = localStorage.getItem("fullName");
-    if (name) setFullname(name);
-  }, []);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const modalOpen =
       showLoginRegistration ||
@@ -77,17 +79,11 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("fullName");
-    setFullname(null);
+    logout();
     setShowSidebar(false);
+    navigate("/");
   };
 
-  const handleLoginSuccess = (name) => {
-    localStorage.setItem("fullname", name);
-    setFullname(name);
-    setShowLoginRegistration(false);
-  };
   const handleAdminLoginSuccess = (adminName) => {
     localStorage.setItem("adminName", adminName);
     setShowAdminLogin(false);
@@ -107,7 +103,7 @@ function Navbar() {
           </ul>
           <h3>Events for You</h3>
           <ul className="navul">
-            {fullname ? (
+            {user.fullName ? (
               <li className="user-info" onClick={toggleSidebar}>
                 <span>
                   <FontAwesomeIcon icon={faUser} /> Profile
@@ -141,7 +137,6 @@ function Navbar() {
         <LoginRegistration
           onClose={() => setShowLoginRegistration(false)}
           openSignup={openSignupModal}
-          onLoginSuccess={handleLoginSuccess}
         />
       </Modal>
 
@@ -158,7 +153,6 @@ function Navbar() {
       <Modal show={showAdminLogin} onClose={() => setShowAdminLogin(false)}>
         <AdminLogin
           onClose={() => setShowAdminLogin(false)}
-          onLoginSuccess={handleAdminLoginSuccess}
           openSignup={openAdminSignupModal}
         />
       </Modal>
@@ -178,16 +172,20 @@ function Navbar() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="username">
-              <span>Hi, {fullname ? fullname : "User"}</span>
+              <span>Hi, {user.fullName ? user.fullName : "User"}</span>
               <hr className="hrtag" />
             </div>
 
             <div className="sidebarbutton">
               <Link
                 to="/myregistrations"
-                className={`side-nav-link ${!fullname ? "disabled-link" : ""}${location.pathname === "/myregistrations" ? "active-link" : ""}`}
+                className={`side-nav-link ${
+                  !user.fullName ? "disabled-link" : ""
+                }${
+                  location.pathname === "/myregistrations" ? "active-link" : ""
+                }`}
                 onClick={(e) => {
-                  if (!fullname) {
+                  if (!user.fullName) {
                     e.preventDefault();
                   } else {
                     setShowSidebar(false);
@@ -197,12 +195,18 @@ function Navbar() {
                 <FontAwesomeIcon icon={faClipboardList} /> My Registrations
               </Link>
 
-              <button className="dashboardbut" onClick={() => { setShowAdminLogin(true); setShowSidebar(false); }}>
-              <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
+              <button
+                className="dashboardbut"
+                onClick={() => {
+                  setShowAdminLogin(true);
+                  setShowSidebar(false);
+                }}
+              >
+                <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
               </button>
             </div>
 
-            {fullname && (
+            {user.fullName && (
               <div className="logout">
                 <button onClick={handleLogout}>
                   <FontAwesomeIcon icon={faSignOutAlt} /> Logout
