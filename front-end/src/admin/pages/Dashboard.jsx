@@ -51,7 +51,7 @@ function Dashboard() {
             >
               <h3>{event.name}</h3>
               <p>Date: {event.date}</p>
-              <p>Registered: {event.registeredUsers}</p>
+              <p className="total-reg">Registered: {event.registeredUsers}</p>
             </Link>
           ))}
         </div>

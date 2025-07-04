@@ -74,3 +74,22 @@
 .login-link button:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 769px) {
+
+  .sregistration {
+    padding: 0px;
+  }
+
+  .sregistration-form {
+    padding: 20px;
+    width: 150%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 345px) {
+  .sregistration-form {
+    width: 120%;
+  }
+}

@@ -81,12 +81,15 @@ const AddEvent = () => {
   return (
     <div className="Add-events">
       <AdminSidebar />
-      {/* <h1 className="event-upload-title">Upload Event</h1> */}
+      <div className="Addevent-h1">
+        <h1 className="event-upload-title">Add Event</h1>
+      </div>
       <div className="event-upload-container">
         <form className="event-upload-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="eventName"
+            maxLength={32}
             placeholder="Event Name"
             className="event-input"
             value={eventData.eventName}
@@ -129,55 +132,59 @@ const AddEvent = () => {
             required
           ></textarea>
 
-          <div className="labelflex1">
-            <label className="event-label">Cover Image:</label>
-            <label className="event-label">Image 1:</label>
+          <div className="file-flex">
+
+            <div className="label-flex1">
+              <label className="event-label">Cover Image:</label>
+              <input
+                type="file"
+                name="coverImage"
+                ref={coverRef}
+                className="event-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+
+            <div className="label-flex1">
+              <label className="event-label">Image 1:</label>
+              <input
+                type="file"
+                name="image1"
+                ref={image1Ref}
+                className="event-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+
           </div>
 
-          <div className="imageflex1">
-            <input
-              type="file"
-              name="coverImage"
-              ref={coverRef}
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-              required
-            />
+          <div className="file-flex">
 
-            <input
-              type="file"
-              name="image1"
-              ref={image1Ref}
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-              required
-            />
-          </div>
-          <div className="labelflex2">
-            <label className="event-label">Image 2:</label>
-            <label className="event-label">Image 3:</label>
-          </div>
-          <div className="imageflex2">
-            <input
-              type="file"
-              name="image2"
-              ref={image2Ref}
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-              required
-            />
-            <input
-              type="file"
-              name="image3"
-              ref={image3Ref}
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-              required
-            />
+            <div className="label-flex2">
+              <label className="event-label">Image 2:</label>
+              <input
+                type="file"
+                name="image2"
+                ref={image2Ref}
+                className="event-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+
+            <div className="label-flex2">
+              <label className="event-label">Image 3:</label>
+              <input
+                type="file"
+                name="image3"
+                ref={image3Ref}
+                className="event-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
           </div>
           <button type="submit" className="event-submit-button">
             Upload Event

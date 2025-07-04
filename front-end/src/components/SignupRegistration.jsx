@@ -1,4 +1,3 @@
-import React from "react";
 import "../css/SignupRegistration.css";
 import axios from "axios";
 import { useState } from "react";

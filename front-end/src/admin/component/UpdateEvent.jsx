@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../css/AddEvent.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import "../css/UpdateEvent.css";
 import AdminSidebar from "../component/AdminSidebar";
 
 function UpdateEvent() {
@@ -26,7 +28,9 @@ function UpdateEvent() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/events/${id}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/events/${id}`
+        );
         const data = response.data;
 
         setEventData({
@@ -57,17 +61,23 @@ function UpdateEvent() {
     e.preventDefault();
 
     const formData = new FormData();
-    Object.entries(eventData).forEach(([key, value]) => formData.append(key, value));
+    Object.entries(eventData).forEach(([key, value]) =>
+      formData.append(key, value)
+    );
     Object.entries(images).forEach(([key, value]) => {
       if (value) formData.append(key, value);
     });
 
     try {
-      await axios.put(`http://localhost:5000/api/events/${id}/update`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(
+        `http://localhost:5000/api/events/${id}/update`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       alert("Event updated successfully!");
-      navigate("/admin/events");
+      navigate(-1);
     } catch (error) {
       console.error("Error updating event:", error);
       alert("Event update failed.");
@@ -75,16 +85,24 @@ function UpdateEvent() {
   };
 
   return (
-    <div className="Add-events">
+    <div className="update-events">
       <AdminSidebar />
-      <div className="event-upload-container">
-        <form className="event-upload-form" onSubmit={handleSubmit}>
+      <div className="update-flex">
+        <button className="update-close-btn" onClick={() => navigate(-1)}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </button>
+        <h1 className="update-title">Update Event</h1>
+      </div>
+
+      <div className="update-form-container">
+        <form className="update-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="eventName"
             value={eventData.eventName}
+            maxLength={32}
             placeholder="Event Name"
-            className="event-input"
+            className="update-input"
             onChange={handleChange}
             required
           />
@@ -92,7 +110,7 @@ function UpdateEvent() {
             type="date"
             name="eventDate"
             value={eventData.eventDate}
-            className="event-input"
+            className="update-input"
             onChange={handleChange}
             required
           />
@@ -101,7 +119,7 @@ function UpdateEvent() {
             name="location"
             value={eventData.location}
             placeholder="Location"
-            className="event-input"
+            className="update-input"
             onChange={handleChange}
             required
           />
@@ -110,7 +128,7 @@ function UpdateEvent() {
             value={eventData.Homedescription}
             placeholder="Home Description"
             maxLength={61}
-            className="event-textarea"
+            className="update-textarea"
             onChange={handleChange}
             required
           ></textarea>
@@ -119,56 +137,62 @@ function UpdateEvent() {
             value={eventData.eventDescription}
             placeholder="Event Description"
             maxLength={611}
-            className="event-textarea"
+            className="update-textarea"
             onChange={handleChange}
             required
           ></textarea>
 
-          <div className="labelflex1">
-            <label className="event-label">Cover Image:</label>
-            <label className="event-label">Image 1:</label>
+          <div className="update-file-flex">
+            <div className="update-label-flex1">
+              <label className="update-label">Cover Image:</label>
+              <input
+                type="file"
+                name="coverImage"
+                className="update-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+            <div className="update-image-flex1">
+              <label className="update-label">Image 1:</label>
+              <input
+                type="file"
+                name="image1"
+                className="update-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+
           </div>
-          <div className="imageflex1">
-            <input
-              type="file"
-              name="coverImage"
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-            <input
-              type="file"
-              name="image1"
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
+          <div className="update-file-flex">
+            <div className="update-label-flex2">
+              <label className="update-label">Image 2:</label>
+              <input
+                type="file"
+                name="image2"
+                className="update-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
+
+            <div className="update-image-flex2">
+              <label className="update-label">Image 3:</label>
+              <input
+                type="file"
+                name="image3"
+                className="update-file-input"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
           </div>
 
-          <div className="labelflex2">
-            <label className="event-label">Image 2:</label>
-            <label className="event-label">Image 3:</label>
-          </div>
-          <div className="imageflex2">
-            <input
-              type="file"
-              name="image2"
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-            <input
-              type="file"
-              name="image3"
-              className="event-file-input"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-          </div>
-
-          <button type="submit" className="event-submit-button">
+          <button type="submit" className="update-submit-button">
             Update Event
           </button>
+          
         </form>
       </div>
     </div>

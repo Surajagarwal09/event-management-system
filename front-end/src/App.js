@@ -13,11 +13,13 @@ import AdminSignup from './admin/pages/AdminSignup';
 import Dashboard from './admin/pages/Dashboard';
 import AdminEvents from './admin/pages/AdminEvents';
 import AddEvent from './admin/pages/AddEvent';
+import AllLocations from './admin/pages/AllLocation';
+import Addlocation from './admin/pages/AddLocation';
 import AdminEventDetails from './admin/pages/AdminEventDetails';
 import UpdateEvent from './admin/component/UpdateEvent';
 import Allusers from './admin/pages/Allusers';
 import UserRegisteration from './admin/pages/UserRegisteration';
-import RequireAdminAuth from "./admin/component/AdminLoginReq"; 
+import RequireAdminAuth from "./admin/component/AdminLoginReq";
 
 function App() {
   const router = createBrowserRouter([
@@ -85,6 +87,22 @@ function App() {
           <AddEvent />
         </RequireAdminAuth>
       ),
+    },
+    {
+      path: "/admin/events/location",
+      element: (
+        <RequireAdminAuth>
+          <AllLocations/>
+        </RequireAdminAuth>
+      )
+    },
+    {
+      path: "/admin/events/Addlocation",
+      element: (
+        <RequireAdminAuth>
+          <Addlocation/>
+        </RequireAdminAuth>
+      )
     },
     {
       path: "/admin/events/details/:id",

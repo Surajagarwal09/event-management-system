@@ -79,7 +79,11 @@ function EventDetail() {
     <div>
       <Navbar />
       <div className="event-detail">
+        <div className="h1">
+          <h1>{event.eventName}</h1>
+        </div>
         <div className="eventd-img">
+          {/* <div className="carousel"> */}
           <div
             id="carouselExample"
             className="carousel slide"
@@ -133,11 +137,9 @@ function EventDetail() {
               <span className="visually-hidden">Next</span>
             </button>
           </div>
+          {/* </div> */}
 
           <div className="datlocreg">
-            <div className="h1">
-              <h1>{event.eventName}</h1>
-            </div>
             <div className="event-dl">
               <p className="event-d">
                 <FontAwesomeIcon icon={faCalendarDays} /> <b>Date: </b>{" "}
@@ -148,7 +150,9 @@ function EventDetail() {
                 {event.location}
               </p>
             </div>
-            <div className="event-regbtn">
+            <hr className="eventdet-hrtag" />
+
+            <div className="event-regbtn desktop-only">
               {isEventEnded ? (
                 <div className="event-ended">
                   <button disabled className="eveended">
@@ -169,11 +173,26 @@ function EventDetail() {
                 </div>
               )}
             </div>
+            <div className="bottom-bar mobile-only">
+              {isEventEnded ? (
+                <button disabled className="eventended">
+                  Event Ended
+                </button>
+              ) : isRegistered ? (
+                <button disabled className="disabbutt">
+                  Event Registered
+                </button>
+              ) : (
+                <button className="eventreg" onClick={handleRegister}>
+                  Register Now
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="eventd-info">
-          <h3>About the Event</h3>
+          <h3>About The Event</h3>
           <p className="event-det">{event.eventDescription}</p>
         </div>
       </div>

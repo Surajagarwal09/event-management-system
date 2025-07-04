@@ -1,0 +1,108 @@
+.h1-topbar {
+    display: flex;
+    position: fixed;
+    background-color: #0d1117;
+    margin-left: 240px;
+    height: 67px;
+    top: 0;
+    width: 100vw;
+}
+
+.h1-topbar h1 {
+    font-size: 1.5rem;
+    color: aliceblue;
+    margin-top: 15px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.locationadd-container {
+    margin-top: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.locationadd-container form {
+    background-color: #151b23;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+}
+
+.locationadd-container input {
+    width: 30vw;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 6px;
+    font-size: 16px;
+    background-color: #0d1117;
+    color: aliceblue;
+}
+
+.locationadd-name:focus {
+    border-color: #238636;
+    outline: none;
+}
+
+.submit-loc {
+    margin-top: 20px;
+    width: 100px;
+    height: 33px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: aliceblue;
+    background-color: #238636;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-bottom: 10px;
+}
+
+.submit-loc:hover {
+    background-color: #35be50e4;
+}
+
+.submit-loc:active {
+    transform: scale(0.96);
+}
+
+@media (max-width:1350px) {
+    .locationadd-container {
+        margin-left: 150px;
+    }
+
+    .locationadd-container input {
+        width: 50vw;
+    }
+}
+@media (max-width:1025px) {
+    .locationadd-container {
+        margin-left: 230px;
+    }
+
+    .locationadd-container input {
+        width: 50vw;
+    }
+}
+
+@media (max-width:769px) {
+
+      .locationadd-container {
+        margin-left: 0px;
+    }
+
+    .locationadd-container input {
+        width: 70vw;
+    }
+    .h1-topbar {
+        display: none;
+    }
+}
+@media (max-width:500px) {
+
+    .locationadd-container input {
+        width: 80vw;
+    }
+}

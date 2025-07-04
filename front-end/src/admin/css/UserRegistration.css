@@ -1,15 +1,57 @@
-.user-registration-container {
-  margin-left: 100px;
-  padding: 30px;
-  color: white;
+.flex-prev {
+  display: flex;
+  gap: 20px;
+  top: 0;
+  padding: 5px;
+  margin-left: 240px;
+  position: fixed;
+  z-index: 1000;
+  background-color: #0d1117;
+  min-width: 100vw;
 }
 
 .registration-title {
+  margin-top: 16px;
   font-size: 28px;
+  color: aliceblue;
+}
+
+.flex-prev button {
+  margin-left: 10px;
+  margin-top: 20px;
+  background-color: rgba(9, 93, 9, 0.69);
+  border: none;
+  min-width: 80px;
+  max-height: 30px;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 5px;
+  color: aliceblue;
+  font-size: 18px;
+  transition: transfrom 0.2s ease;
+}
+
+.prev-button:hover {
+  background-color: green;
+}
+
+.prev-button:active {
+  transform: scale(0.96);
+}
+
+.user-registration-container {
+  margin-left: 260px;
+  margin-right: 20px;
+  margin-top: 30px;
   margin-bottom: 20px;
+  color: white;
+  overflow: hidden;
 }
 
 .user-registration-table {
+  margin-top: 60px;
   width: 100%;
   border-collapse: collapse;
   background-color: #151b23;
@@ -33,10 +75,49 @@
   background-color: #2c2f36;
 }
 
+@media (max-width:1105px) {
 
-@media (max-width: 768px) {
-  .registration-title {
-    font-size: 22px;
+  .user-registration-container {
+    margin-left: 250px;
+    margin-right: 10px;
+  }
+
+}
+
+@media (max-width:1053px) {
+
+  .location-th,
+  .eventon-th,
+  .location-td,
+  .eventon-td {
+    display: none;
+  }
+
+}
+
+@media (max-width:769px) {
+
+  .flex-prev {
+    display: none;
+  }
+
+  .user-registration-container {
+    margin-left: 15px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 515px) {
+
+
+  .user-registration-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+
+  .user-registration-table {
+    background-color: transparent;
   }
 
   .user-registration-table,
@@ -46,6 +127,7 @@
   .user-registration-table td,
   .user-registration-table tr {
     display: block;
+    font-size: 14px;
   }
 
   .user-registration-table thead {
@@ -62,7 +144,7 @@
   .user-registration-table td {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 3px 0;
     border: none;
   }
 
@@ -72,4 +154,33 @@
     color: #bbb;
     flex-basis: 45%;
   }
+}
+
+@media (max-width: 372px) {
+
+  .user-registration-table,
+  .user-registration-table thead,
+  .user-registration-table tbody,
+  .user-registration-table th,
+  .user-registration-table td,
+  .user-registration-table tr {
+    font-size: 13px;
+  }
+
+   .user-registration-table td {
+    padding: 1px 0;
+  }
+
+}
+@media (max-width: 350px) {
+
+  .user-registration-table,
+  .user-registration-table thead,
+  .user-registration-table tbody,
+  .user-registration-table th,
+  .user-registration-table td,
+  .user-registration-table tr {
+    font-size: 12px;
+  }
+
 }

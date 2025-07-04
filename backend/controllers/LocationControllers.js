@@ -1,25 +1,40 @@
 const Location = require("../models/Location");
 
 const addCity = async (req, res) => {
-    try {
-        const { city } = req.body;
+  try {
+    const { city } = req.body;
 
-        let location = await Location.findOne({});
-        if (!location) {
-            location = new Location({ cities: [city] }); 
-        } else {
-            if (location.cities.includes(city)) {
-                return res.status(400).json({ message: "City already exists" });
-            }
-            location.cities.push(city);
-        }
-
-        await location.save();
-        res.status(201).json({ message: "City added successfully", data: location });
-    } catch (error) {
-        res.status(500).json({ message: "Error adding city", error });
+    if (!city || typeof city !== "string" || city.trim() === "") {
+      return res.status(400).json({ message: "Invalid city name" });
     }
+
+    const trimmedCity = city.trim();
+
+    let location = await Location.findOne();
+
+    if (!location) {
+      location = new Location({ cities: [trimmedCity] });
+    } else {
+      const cityExists = location.cities.some(
+        (c) => c.trim().toLowerCase() === trimmedCity.toLowerCase()
+      );
+
+      if (cityExists) {
+        return res.status(400).json({ message: "City already exists" });
+      }
+
+      location.cities.push(trimmedCity);
+    }
+
+    await location.save();
+
+    res.status(201).json({ message: "City added successfully", data: location });
+  } catch (error) {
+    console.error("Error adding city:", error);
+    res.status(500).json({ message: "Error adding city", error });
+  }
 };
+
 
 const getAllCities = async (req, res) => {
     try {

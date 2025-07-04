@@ -1,8 +1,8 @@
 .modal-overlay {
   position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100%; 
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -14,7 +14,7 @@
 
 .close-button {
   display: flex;
-  align-items: center; 
+  align-items: center;
   background: none;
   border: none;
   cursor: pointer;
@@ -23,7 +23,8 @@
   margin-top: 10px;
   font-size: 18px;
 }
-.close-button button{
+
+.close-button button {
   display: flex;
   justify-content: center;
   background: transparent;
@@ -31,6 +32,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 }
+
 .close-button svg {
   font-size: 20px;
   color: white;
@@ -38,4 +40,18 @@
 
 .close-button:hover svg {
   color: red;
+}
+
+@media (max-width:769px) {
+
+  .close-button {
+    margin-left: 235px;
+  }
+}
+
+@media (max-width:345px) {
+
+  .close-button {
+    margin-left: 230px;
+  }
 }

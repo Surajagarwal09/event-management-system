@@ -100,7 +100,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    top: 0;
+    top: 67.5px;
     right: 0;
     width: 250px;
     height: 100vh;
@@ -109,7 +109,8 @@
     padding: 10px;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    z-index: 1001;
+    z-index: 1002;
+    border-top-left-radius: 5px;
 }
 
 .sidebar.open {
@@ -123,7 +124,7 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    z-index: 1001;
 }
 
 .sidebarbutton {
@@ -187,6 +188,7 @@
 .logout {
     margin-top: auto;
     padding-top: 20px;
+    margin-bottom: 70px;
 }
 
 .logout button {
@@ -231,11 +233,17 @@
 
 }
 
+@media (max-width:1355px) {
+    .sidebar{
+        margin-top: -8px;
+    }
+}
 
 @media (max-width:770px) {
-    .Navbar{
+    .Navbar {
         height: 65px;
     }
+
     .housebut {
         margin-left: -20px;
     }
@@ -257,20 +265,27 @@
         margin-right: -40px;
     }
 
+    .sidebar {
+        top: 64.5px;
+    }
+
 }
 
-@media(max-width:515px){
-    .sidebar{
+@media(max-width:515px) {
+    .sidebar {
         width: 200px;
     }
-    .Navbar h3{
+
+    .Navbar h3 {
         font-size: 17px;
         margin-top: 5px;
     }
-    .housebut{
+
+    .housebut {
         font-size: 16px;
     }
-    .signin-out button{
+
+    .signin-out button {
         font-size: 14px;
         width: 55px;
         margin-top: -4px;
@@ -278,27 +293,46 @@
 
 }
 
-@media(max-width:400px){
-    .Navbar h3{
+@media(max-width:400px) {
+    .Navbar h3 {
         margin-top: 6px;
     }
-    .signin-out button{
+
+    .signin-out button {
         font-size: 14px;
         margin-top: 0px;
     }
 
 }
 
- @media(max-width:380px){
-    .Navbar h3{
+@media(max-width:380px) {
+    .sidebar-overlay {
+        margin-bottom: 10px;
+    }
+
+    .Navbar h3 {
         font-size: 16px;
         margin-top: 6px;
         margin-left: 10px;
     }
 
-    .signin-out button{
+    .signin-out button {
         font-size: 14px;
         margin-top: 0px;
-    } 
+    }
 
+}
+
+@media(max-width:361px) {
+    .sidebar {
+        min-height: 20vh !important;
+    }
+
+    .sidebar-overlay {
+        min-height: 120vh !important;
+    }
+
+    .logout button {
+        margin-bottom: 0px;
+    }
 }

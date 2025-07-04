@@ -1,88 +1,245 @@
 .myregistration {
-    margin-top: 90px;
-}
-
-.myregistration h1 {
-    color: #ffffff;
-    padding: 10px;
-    font-size: 2rem;
+  margin-top: 90px;
+  margin-bottom: 15px;
 }
 
 .myregister-header {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.myregistration h1 {
+  color: #ffffff;
+  padding: 10px;
+  font-size: 2rem;
 }
 
 .myreg-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: aliceblue;
-    margin-left: 50px;
-    margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: aliceblue;
+  margin: 0 50px;
 }
 
 .myregistration-card {
-    border: 1px solid #313c49;
-    background-color: #151b232e;
-    min-width: 50vw;
-    padding: 20px;
-    border-radius: 12px;
+  border: 1px solid #313c49;
+  background-color: #151b23;
+  min-width: 40vw;
+  max-width: 40vw;
+  padding: 10px;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
 }
 
 .myregistration-card:hover {
-    background-color: #151b23;
+  transform: scale(1.03);
 }
 
-.myreg-details {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    gap: 20px;
+.evenameflex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toggle-more {
+  color: chartreuse;
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.myreg-info {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 10px;
+}
+
+.event-description {
+  margin-bottom: 0px;
+  margin-top: -10px;
 }
 
 .myregistration-card h2 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    color: #38bdf8;
+  font-size: 1.4rem;
+  margin-top: -25px;
+  color: #38bdf8;
 }
 
-.myregistration-card p {
-    margin: 4px 0;
-    font-size: 0.95rem;
+.flexeveid {
+  margin-left: -155px;
+  margin-bottom: 10px;
 }
 
-.myregistration-card button {
-    background-color: transparent;
-    text-align: center;
-    align-items: center;
-    border: none;
-    border-radius: 20px;
-    color: red;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-.myregistration-card button:hover{
-    text-decoration: underline;
-}
-.myregistration-card button:active {
-    transform: scale(0.95);
+.eventid {
+  margin-bottom: 10px;
+  margin-top: -12px;
+  font-size: 14px;
+  margin-left: 50px;
 }
 
+.status-confirmed {
+  color: rgb(2, 159, 2);
+}
 
-.registration-card button:hover {
-    opacity: 0.9;
+.status-ended {
+  color: #ef4444;
+}
+
+.cancel-event {
+  background-color: rgb(186, 10, 10);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  width: 150px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cancel-event:hover {
+  background-color: rgba(203, 8, 8, 0.778);
+  opacity: 0.9;
+}
+
+.cancel-event:active {
+  transform: scale(0.95);
 }
 
 .no-event {
-    text-align: center;
-    margin-top: 200px;
-    color: #ffffff;
-    font-size: 20px;
+  text-align: center;
+  margin-top: 200px;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+/*  */
+
+@media (max-width:931px) {
+  .myregistration-card {
+    min-width: 50vw;
+    max-width: 50vw;
+  }
+}
+
+@media (max-width: 769px) {
+
+  .myregistration-card {
+    min-width: 50vw;
+    max-width: 50vw;
+  }
+
+  .myregistration h1 {
+    font-size: 1.8rem;
+    margin-bottom: -10px;
+  }
+
+  .myreg-info {
+    gap: 15px;
+    font-size: 0.9rem;
+  }
+
+  .myregistration-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .flexeveid {
+    margin-left: -90px;
+    margin-bottom: 10px;
+  }
+
+  .eventid {
+    margin-bottom: 10px;
+    margin-top: -12px;
+    margin-left: 50px;
+  }
+
+  .cancel-event {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    width: 140px;
+  }
+
+  .no-event {
+    font-size: 18px;
+  }
+}
+
+@media (max-width:670px) {
+
+  .myregistration-card {
+    min-width: 60vw;
+    max-width: 60vw;
+  }
+
+}
+
+@media (max-width:540px) {
+
+  .myregistration-card {
+    min-width: 65vw;
+    max-width: 65vw;
+  }
+
+}
+
+@media (max-width:517px) {
+
+  .myregistration-card {
+    min-width: 70vw;
+    max-width: 70vw;
+  }
+   .myregistration-card h2 {
+    font-size: 16px;
+  }
+
+  .toggle-more{
+    margin-left: 20px;
+  }
+}
+
+@media (max-width:431px){
+
+  .myregistration-card {
+    min-width: 75vw;
+    max-width: 75vw;
+  }
+
+}
+@media (max-width:410px){
+
+  .myregistration-card h2 {
+    font-size: 15px;
+  }
+
+  .myregistration-card {
+    min-width: 80vw;
+    max-width: 80vw;
+  }
+
+  .myreg-info{
+    font-size: 14px;
+  }
+}
+@media (max-width:380px){
+
+  .myregistration-card {
+    min-width: 85vw;
+    max-width: 85vw;
+  }
+
+}
+@media (max-width:350px){
+
+  .myregistration-card {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
 }

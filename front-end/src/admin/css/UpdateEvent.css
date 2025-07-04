@@ -1,0 +1,256 @@
+.update-flex h1 {
+  font-size: 1.5rem;
+  color: aliceblue;
+  margin-top: 23px;
+}
+
+.update-flex {
+  display: flex;
+  gap: 10px;
+  margin-left: 250px;
+  margin-top: -10px;
+  position: fixed;
+  padding: 1px;
+  z-index: 1000;
+  background-color: #0d1117;
+  min-width: 100vw;
+}
+
+.update-close-btn {
+  margin-top: 23px;
+  min-width: 80px;
+  max-height: 30px;
+  min-height: 30px;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.update-close-btn {
+  background-color: rgba(9, 93, 9, 0.69);
+  border: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  color: aliceblue;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.update-close-btn:hover {
+  background-color: green;
+}
+
+.update-close-btn:active {
+  transform: scale(0.96);
+}
+
+.update-form-container {
+  margin-left: 250px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.update-upload-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: white;
+  text-align: center;
+}
+
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  background-color: #151b23;
+  padding: 30px;
+  margin-top: 80px;
+  max-width: 55vw;
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.update-input,
+.update-textarea,
+.update-file-input {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 50vw;
+}
+
+.update-upload-container input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.update-input:focus,
+.update-textarea:focus {
+  border-color: #238636;
+  outline: none;
+}
+
+.update-label {
+  font-weight: bold;
+  margin-bottom: -10px;
+  color: #c9d1d9;
+}
+
+.update-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.update-submit-button {
+  background-color: #238636;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.update-submit-button:active {
+  transform: scale(0.96);
+}
+
+.update-submit-button:hover {
+  background-color: #2ea043;
+}
+
+.update-file-input {
+  width: 24.3vw !important;
+  cursor: pointer;
+}
+
+.update-file-flex{
+  display: flex;
+  gap: 15px;
+}
+.update-image-flex1,
+.update-image-flex2 {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.update-label-flex1,
+.update-label-flex2{
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+
+@media (max-width:1025px) {
+
+  .update-form-container {
+    margin-left: 200px;
+  }
+
+}
+
+@media (max-width:1000px) {
+
+  .update-form-container {
+    margin-left: 250px;
+  }
+
+  .update-form {
+    max-width: 70vw;
+  }
+
+  .update-input,
+  .update-textarea,
+  .update-file-input {
+    width: 56vw;
+  }
+
+  .update-file-input {
+    width: 26.6vw !important;
+  }
+}
+
+@media (max-width:769px) {
+
+
+  .update-form-container {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .update-form {
+    max-width: 80vw;
+  }
+
+  .update-input,
+  .update-textarea,
+  .update-file-input {
+    width: 70vw;
+  }
+
+  .update-file-input {
+    width: 33.6vw !important;
+  }
+
+  .update-flex {
+    display: none;
+  }
+}
+
+@media (max-width:530px) {
+  .update-form {
+    max-width: 85vw;
+    margin-top:60px;
+  }
+
+  .update-input,
+  .update-textarea,
+  .update-file-input {
+    width: 75vw;
+  }
+
+  .update-file-input {
+    width: 35.6vw !important;
+  }
+
+  .update-file-flex label{
+    font-size: 15px;
+  }
+}
+
+@media (max-width:450px) {
+  .update-form {
+    max-width: 90vw;
+    gap: 10px;
+  }
+
+  .update-input,
+  .update-textarea,
+  .update-file-input {
+    width: 80vw;
+    margin-left: -10px;
+    font-size: 14px;
+  }
+
+  .update-file-input {
+    width: 38.6vw !important;
+    font-size: 12px;
+    height: 45px;
+  }
+
+  .update-submit-button {
+    padding: 8px;
+    width: 79vw;
+    margin-left: -10px;
+  }
+}

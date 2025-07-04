@@ -75,3 +75,94 @@
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
+
+.total-reg{
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
+
+@media (max-width:769px) {
+    
+.dashboard-content {
+    margin-left: 10px;
+    padding: 30px;
+    width: 100%;
+    min-height: 100vh;
+}
+.event-cards {
+    margin-left: 0px;
+}
+}
+@media (max-width:480px) {
+    
+.dashboard-content {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.stat-box {
+    padding: 10px;
+    width: 190px;
+}
+
+.stat-box h3 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.stat-box p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+}
+
+.event-cards {
+    margin-left: 0px;
+    max-width: 300px;
+}
+
+.event-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+}
+@media (max-width:426px) {
+    
+.dashboard-content {
+    margin-left: -5px;
+    margin-right: 5px;
+}
+
+.stat-box h3 {
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.stat-box p {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.section-title {
+    font-size: 20px;
+}
+
+.event-cards {
+    margin-left: 0px;
+    max-width: 300px;
+}
+
+.event-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.event-card p{
+    font-size: 14px;
+}
+
+}

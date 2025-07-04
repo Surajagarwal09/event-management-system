@@ -94,6 +94,13 @@
 
         width: 130px;
     }
+
+    .date-loc input[type="date"] {
+        font-size: 14px;
+        height: 30px;
+        padding: 3px 6px;
+        width: 110px;
+    }
 }
 
 @media(max-width:560px) {

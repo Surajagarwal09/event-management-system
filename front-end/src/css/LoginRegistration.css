@@ -72,3 +72,23 @@
     text-decoration: underline;
     color: #38bdf8;
 }
+
+@media (max-width:769px) {
+
+    .login {
+        padding: 0px;
+    }
+
+    .login-form {
+        padding: 20px;
+        width: 130%;
+        max-width: 300px;
+    }
+}
+@media (max-width:345px) {
+
+    .login-form {
+        padding: 20px;
+        width: 120%;
+    }
+}

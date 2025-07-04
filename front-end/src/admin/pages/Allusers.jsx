@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AdminSidebar from "../component/AdminSidebar";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import "../css/AllUsers.css";
 
@@ -9,7 +11,8 @@ function Allusers() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/users/all")
+    axios
+      .get("http://localhost:5000/api/users/all")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Failed to fetch users:", err));
   }, []);
@@ -21,37 +24,49 @@ function Allusers() {
   return (
     <div className="admin-events">
       <AdminSidebar />
-
+      <div className="user-list-title">
+        <h1>All Registered Users</h1>
+      </div>
       <div className="user-list-container">
-        <h1 className="user-list-title">All Registered Users</h1>
-
         <table className="user-table">
           <thead>
             <tr>
-              <th>Full Name</th>
-              <th>Email</th>
-              <th>Total Registered Events</th>
-              <th>Action</th>
+              <th className="email-th">User</th>
+              <th className="eventreg-th">Events Reg.</th>
+              <th className="action-head">Action</th>
             </tr>
           </thead>
           <tbody>
-            {users.length > 0 ? users.map((user) => (
-              <tr key={user._id}>
-                <td>{user.fullname}</td>
-                <td>{user.email}</td>
-                <td>{user.registeredEventCount || 0}</td>
-                <td>
-                  <button 
-                    className="user-details-button"
-                    onClick={() => handleViewDetails(user._id)}
-                  >
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            )) : (
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user._id}>
+                  <td className="email-td">
+                    {user.email}
+                    <button
+                      className="user-details-mobile-button"
+                      onClick={() => handleViewDetails(user._id)}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
+                    </button>
+                  </td>
+                  <td className="eventreg-th">
+                    {user.registeredEventCount || 0}
+                  </td>
+                  <td className="user-details-button-td">
+                    <button
+                      className="user-details-button"
+                      onClick={() => handleViewDetails(user._id)}
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
-                <td colSpan="4" style={{ textAlign: "center" }}>No users found.</td>
+                <td colSpan="4" style={{ textAlign: "center" }}>
+                  No users found.
+                </td>
               </tr>
             )}
           </tbody>
