@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../component/AdminSidebar";
 import "../css/Addlocation.css";
+import ButtonLoader from "../../components/ButtonLoader";
 
 function Addlocation() {
   const [adlocation, setAdlocation] = useState("");
+  const [buttonloading, setButtonloading] = useState(false);
 
   const handleChange = (e) => {
     const input = e.target.value;
@@ -14,7 +16,7 @@ function Addlocation() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+    setButtonloading(true);
     try {
       const response = await axios.post(
         "http://localhost:5000/api/locations/add",
@@ -36,6 +38,8 @@ function Addlocation() {
         console.log("error submmitting location:", error);
         alert("something went wrong adding location try again");
       }
+    } finally {
+      setButtonloading(false);
     }
   };
 
@@ -57,9 +61,13 @@ function Addlocation() {
             required
           />{" "}
           <br />
-          <button type="submit" className="submit-loc">
+          <ButtonLoader
+            loading={buttonloading}
+            type="submit"
+            className="submit-loc"
+          >
             Add Loc
-          </button>
+          </ButtonLoader>
         </form>
       </div>
     </>

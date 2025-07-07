@@ -1,5 +1,6 @@
 .filter {
     margin-top: 90px;
+    z-index: 1003;
 }
 
 .searchbar {

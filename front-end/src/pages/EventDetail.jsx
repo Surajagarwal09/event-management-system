@@ -4,26 +4,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
   faCalendarDays,
+  faL,
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/EventDetail.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import FullScreenLoader from "../components/FullscreenLoader";
+import ButtonLoader from "../components/ButtonLoader";
 
 function EventDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isEventEnded, setIsEventEnded] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [buttonloading, setButtonloading] = useState(false);
 
   const fetchEventDetails = async () => {
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
+      setLoading(true);
       const response = await axios.get(
         `http://localhost:5000/api/events/${id}`
       );
       setEvent(response.data);
-
       const eventDate = new Date(response.data.eventDate);
       const today = new Date();
       setIsEventEnded(eventDate < today);
@@ -40,6 +47,9 @@ function EventDetail() {
       }
     } catch (error) {
       console.error("Error Fetching Events Details:", error);
+      setError("Event not found or something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,17 +57,40 @@ function EventDetail() {
     fetchEventDetails();
   }, [id]);
 
-  if (!event) return <p>Loading Event Details ...</p>;
+  if (loading) {
+    return (
+      <div>
+        <Navbar />
+        <div className="event-content-loader-wrapper">
+          <FullScreenLoader />
+        </div>
+      </div>
+    );
+  }
+
+  if (error)
+    return (
+      <div>
+        <Navbar />
+        <div className="event-detail-error">
+          <h2>This event doesn't exist or may have been removed</h2>
+        </div>
+      </div>
+    );
 
   const handleRegister = async () => {
-    if (isRegistered) return;
-
+    setButtonloading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    if (isRegistered) {
+      setButtonloading(false);
+      return;
+    }
     const token = localStorage.getItem("token");
     if (!token) {
       alert("Please log in to register for the event.");
+      setButtonloading(false);
       return;
     }
-
     try {
       await axios.post(
         `http://localhost:5000/api/events/${id}/register`,
@@ -73,6 +106,8 @@ function EventDetail() {
     } catch (err) {
       console.error("Registration failed:", err.response?.data || err);
       alert(err.response?.data?.message || "Registration failed");
+    } finally {
+      setButtonloading(false);
     }
   };
   return (
@@ -167,9 +202,14 @@ function EventDetail() {
                 </div>
               ) : (
                 <div className="allowreg">
-                  <button className="allreg" onClick={handleRegister}>
+                  <ButtonLoader
+                    onClick={handleRegister}
+                    loading={buttonloading}
+                    type="submit"
+                    className="allreg"
+                  >
                     Register Now
-                  </button>
+                  </ButtonLoader>
                 </div>
               )}
             </div>

@@ -3,22 +3,25 @@ import Navbar from "../components/Navbar";
 import EventCard from "../components/EventCard";
 import Filter from "../components/Filter";
 import axios from "axios";
-import {useDispatch,useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEventsStart,
   fetchEventsSuccess,
   fetchEventsFailure,
 } from "../redux/EventSlice";
+import FullScreenLoader from "../components/FullscreenLoader";
 
 function EventList() {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.events);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const [filterLoading, setFilterLoading] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       dispatch(fetchEventsStart());
       try {
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
         const response = await axios.get("http://localhost:5000/api/events");
         dispatch(fetchEventsSuccess(response.data));
         setFilteredEvents(response.data);
@@ -30,16 +33,18 @@ function EventList() {
   }, [dispatch]);
 
   const handleFilterChange = (filteredData) => {
+    setFilterLoading(true);
     setFilteredEvents(filteredData.length ? filteredData : []);
-};
+    setFilterLoading(false);
+  };
 
   return (
     <div>
       <Navbar />
+      {(loading || filterLoading) && <FullScreenLoader />}
       <Filter onFilterChange={handleFilterChange} />
-      {loading && <p className="loading">Loading Events...</p>}
-      {error && <p className="error">failed to load events:{ error}</p>}
-      <EventCard events={filteredEvents} />
+      {error && <p className="error">failed to load events</p>}
+      {!loading && <EventCard events={filteredEvents} />}
     </div>
   );
 }

@@ -8,7 +8,7 @@
     width: 100vw;
     align-items: center;
     color: aliceblue;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .location-title-bar h1 {

@@ -9,14 +9,18 @@ import {
   fetchLocationsFailure,
   deleteLocationSuccess,
 } from "../../redux/LocationSlice";
+import FullScreenLoader from "../../components/FullscreenLoader";
+import ButtonLoader from "../../components/ButtonLoader";
 
 function AllLocations() {
   const dispatch = useDispatch();
   const { cities, loading, error } = useSelector((state) => state.locations);
+  const [deletingCity, setDeletingCity] = useState(null);
 
   useEffect(() => {
     const fetchLocations = async () => {
       dispatch(fetchLocationsStart());
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         const res = await axios.get(
           "http://localhost:5000/api/locations/cities"
@@ -32,6 +36,8 @@ function AllLocations() {
 
   const handleDelete = async (city) => {
     if (window.confirm(`Are you sure you want to delete "${city}"?`)) {
+      setDeletingCity(city);
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         await axios.delete(
           `http://localhost:5000/api/locations/delete/${city}`
@@ -39,9 +45,20 @@ function AllLocations() {
         dispatch(deleteLocationSuccess(city));
       } catch (error) {
         console.error("Delete failed:", error);
+      } finally {
+        setDeletingCity(null);
       }
     }
   };
+
+  if (loading) {
+    return (
+      <>
+        <AdminSidebar />
+        <FullScreenLoader />
+      </>
+    );
+  }
 
   return (
     <>
@@ -57,14 +74,6 @@ function AllLocations() {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr>
-                <td colSpan="2" className="location-empty">
-                  Loading...
-                </td>
-              </tr>
-            )}
-
             {error && (
               <tr>
                 <td colSpan="2" className="location-empty">
@@ -73,29 +82,31 @@ function AllLocations() {
               </tr>
             )}
 
-            {!loading && cities.length > 0
-              ? cities.map((city, index) => (
-                  <tr key={index}>
-                    <td colSpan="2">
-                      <div className="location-row-flex">
-                        <p className="location-name-text">{city}</p>
-                        <button
-                          className="location-delete-button"
-                          onClick={() => handleDelete(city)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              : !loading && (
-                  <tr>
-                    <td colSpan="2" className="location-empty">
-                      No locations found.
-                    </td>
-                  </tr>
-                )}
+            {cities.length > 0 ? (
+              cities.map((city, index) => (
+                <tr key={index}>
+                  <td colSpan="2">
+                    <div className="location-row-flex">
+                      <p className="location-name-text">{city}</p>
+                      <ButtonLoader
+                        loading={deletingCity === city}
+                        type="submit"
+                        className="location-delete-button"
+                        onClick={() => handleDelete(city)}
+                      >
+                        Delete
+                      </ButtonLoader>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="2" className="location-empty">
+                  No locations found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

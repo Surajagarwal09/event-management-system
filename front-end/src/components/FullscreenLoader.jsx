@@ -4,7 +4,11 @@ import "../css/FullScreenLoader.css";
 function FullScreenLoader() {
   return (
     <div className="fullscreen-loader">
-      <img src="front-end/public/Eclipse.gif" alt="Loading..." className="loader-image" />
+      <img
+        src="/Animation - 1751667809781.gif"
+        alt="Loading..."
+        className="loader-image"
+      />
     </div>
   );
 }

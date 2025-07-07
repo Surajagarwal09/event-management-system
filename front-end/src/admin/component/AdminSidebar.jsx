@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useUI } from "../../context/UIContext";
 import { useAdmin } from "../../context/AdminContext";
+import FullScreenLoader from "../../components/FullscreenLoader";
 
 function AdminSidebar() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function AdminSidebar() {
   const { isSidebarOpen: isOpen, toggleSidebar, setSidebarOpen } = useUI();
   const { adminName, logout } = useAdmin();
   const sidebarRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const currentpagetitle = (path) => {
     if (path === "/admin/dashboard") return "Dashboard";
@@ -37,8 +39,11 @@ function AdminSidebar() {
   const currentPage = currentpagetitle(location.pathname);
 
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    setLoading(true);
+    setTimeout(() => {
+      logout();
+      navigate("/");
+    },800);
   };
 
   useEffect(() => {
@@ -137,6 +142,7 @@ function AdminSidebar() {
           </ul>
         </nav>
         <div className="logout-button">
+          {loading && <FullScreenLoader />}
           <button onClick={handleLogout}>
             <FontAwesomeIcon icon={faSignOut} /> Logout
           </button>

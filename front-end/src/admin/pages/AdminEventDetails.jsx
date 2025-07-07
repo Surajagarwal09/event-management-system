@@ -9,21 +9,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../css/AdminEventDetails.css";
-
+import FullScreenLoader from "../../components/FullscreenLoader";
 function AdminEventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+
+  const [error, setError] = useState(false);
 
   const fetchEventDetails = async () => {
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.get(
         `http://localhost:5000/api/events/${id}`
       );
       setEvent(response.data);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching event details:", error);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,6 +40,7 @@ function AdminEventDetails() {
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this event?")) {
+      setDeleting(true);
       try {
         await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
         alert("Event deleted successfully");
@@ -40,6 +48,8 @@ function AdminEventDetails() {
       } catch (error) {
         console.error("Delete failed:", error);
         alert("Failed to delete event");
+      } finally {
+        setDeleting(false);
       }
     }
   };
@@ -49,11 +59,33 @@ function AdminEventDetails() {
     navigate(`/admin/events/update/${id}`);
   };
 
-  if (!event) return <p>Loading Event Details...</p>;
+  if (loading) {
+    return (
+      <>
+        <AdminSidebar />
+        <div className="admin-loader-wrapper">
+          <FullScreenLoader />
+        </div>
+      </>
+    );
+  }
+
+  if (error || !event) {
+    return (
+      <>
+        <AdminSidebar />
+        <div className="admin-event-detail-error">
+          <h2>This event doesn't exist or may have been removed</h2>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="admin-event-page">
       <AdminSidebar />
+      {deleting && <FullScreenLoader />}
+
       <div className="admin-event-detail">
         <div className="admin-event-detail-h1">
           <button onClick={() => navigate(-1)} className="previous1-button">
@@ -61,6 +93,7 @@ function AdminEventDetails() {
           </button>
           <h1>{event.eventName}</h1>
         </div>
+
         <div className="admin-event-images">
           <div
             id="adminCarousel"
@@ -94,7 +127,7 @@ function AdminEventDetails() {
               data-bs-slide="prev"
             >
               <span className="carousel-control-prev-icon" />
-              <span className="visually-hidden">previous1</span>
+              <span className="visually-hidden">Previous</span>
             </button>
             <button
               className="carousel-control-next"
@@ -106,6 +139,7 @@ function AdminEventDetails() {
               <span className="visually-hidden">Next</span>
             </button>
           </div>
+
           <div className="admin-event-actions">
             <button className="btn-update" onClick={handleUpdate}>
               Update Event
@@ -115,6 +149,7 @@ function AdminEventDetails() {
             </button>
           </div>
         </div>
+
         <div className="admin-event-info-box">
           <div className="admin-event-meta">
             <p>
@@ -124,7 +159,7 @@ function AdminEventDetails() {
             <p>
               <FontAwesomeIcon icon={faLocationDot} /> {event.location}
             </p>
-            <p>Registerations: {event.totalregistration}</p>
+            <p>Registrations: {event.totalregistration}</p>
           </div>
         </div>
 

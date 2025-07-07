@@ -8,7 +8,7 @@ import {
   faClipboardList,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link,useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 import Modal from "./Modal";
 import LoginRegistration from "./LoginRegistration";
@@ -16,6 +16,7 @@ import SignupRegistration from "./SignupRegistration";
 import AdminLogin from "../admin/pages/AdminLogin";
 import AdminSignup from "../admin/pages/AdminSignup";
 import { useUser } from "../context/UserContext";
+import ButtonLoader from "./ButtonLoader";
 
 function Navbar() {
   const [showLoginRegistration, setShowLoginRegistration] = useState(false);
@@ -27,6 +28,8 @@ function Navbar() {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminSignup, setShowAdminSignup] = useState(false);
   const navigate = useNavigate();
+  const [buttonloading, setButtonloading] = useState(false);
+
   useEffect(() => {
     const modalOpen =
       showLoginRegistration ||
@@ -79,15 +82,12 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    logout();
-    setShowSidebar(false);
-    navigate("/");
-  };
-
-  const handleAdminLoginSuccess = (adminName) => {
-    localStorage.setItem("adminName", adminName);
-    setShowAdminLogin(false);
-    window.location.href = "/admin/dashboard";
+    setButtonloading(true);
+    setTimeout(() => {
+      logout();
+      setShowSidebar(false);
+      navigate("/");
+    }, 800);
   };
 
   return (
@@ -208,9 +208,14 @@ function Navbar() {
 
             {user.fullName && (
               <div className="logout">
-                <button onClick={handleLogout}>
+                <ButtonLoader
+                  onClick={handleLogout}
+                  loading={buttonloading}
+                  type="submit"
+                  className="userLogout-btn"
+                >
                   <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-                </button>
+                </ButtonLoader>
               </div>
             )}
           </div>

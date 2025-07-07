@@ -2,31 +2,37 @@ import React, { useState } from "react";
 import "../css/LoginRegistration.css";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
+import ButtonLoader from "./ButtonLoader";
 
 function LoginRegistration({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [error, setError] = useState("");
   const { login } = useUser();
+  const [buttonloading, setButtonloading] = useState(false);
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post(
-      "http://localhost:5000/api/users/login",
-      { email, dob }
-    );
+    e.preventDefault();
+    setButtonloading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        { email, dob }
+      );
 
-    const { token, user } = response.data;
-    login(token, user.fullname);
+      const { token, user } = response.data;
+      login(token, user.fullname);
 
-    alert("Login successful");
-    onClose();
-  } catch (error) {
-    setError("Invalid email or date of birth");
-    console.log(error);
-  }
-};
+      alert("Login successful");
+      onClose();
+    } catch (error) {
+      setError("Invalid email or date of birth");
+      console.log(error);
+    } finally {
+      setButtonloading(false);
+    }
+  };
 
   return (
     <div className="login">
@@ -57,8 +63,11 @@ function LoginRegistration({ onClose, openSignup }) {
           {error && <p className="error-message">{error}</p>}
 
           <div className="logsubmit-btn">
-            <button type="submit">Login</button>
+            <ButtonLoader loading={buttonloading} type="submit" className="login-btn">
+              Login
+            </ButtonLoader>
           </div>
+
           <div className="signup-link">
             <button onClick={openSignup}>Don't have an account? Sign Up</button>
           </div>

@@ -10,23 +10,30 @@ import {
   faCalendarDays,
   faSquareCheck,
   faSquareXmark,
+  faL,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import FullscreenLoader from "../components/FullscreenLoader";
+import ButtonLoader from "../components/ButtonLoader";
 
 function MyRegistrations() {
   const [events, setEvents] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [buttonloading, setButtonloading] = useState(false);
 
   useEffect(() => {
     const fetchUserRegistrations = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("Please log in to view your registrations.");
+        setLoading(false);
         return;
       }
 
       try {
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
         const response = await axios.get(
           "http://localhost:5000/api/users/details",
           {
@@ -51,7 +58,9 @@ function MyRegistrations() {
         setEvents(sortedEvents);
       } catch (error) {
         console.error("Failed to fetch user details:", error);
-        alert("Unable to load registrations.");
+        setError("Unable to load registrations.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -67,10 +76,9 @@ function MyRegistrations() {
   const handleCancel = async (eventId) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please log in to cancel the registration.");
       return;
     }
-
+    setButtonloading(true);
     try {
       const decoded = jwtDecode(token);
       const userId = decoded.id;
@@ -84,99 +92,108 @@ function MyRegistrations() {
           },
         }
       );
-
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.eventId !== eventId)
       );
-      alert("Event cancelled successfully.");
     } catch (error) {
       console.error("Cancellation failed:", error);
-      alert(error.response?.data?.message || "Failed to cancel event.");
+    } finally {
+      setButtonloading(false);
     }
   };
 
   return (
     <div>
       <Navbar />
-      <div className="myregistration">
-        <div className="myregister-header">
-          <h1>Registered Events</h1>
+      {loading ? (
+        <FullscreenLoader />
+      ) : error ? (
+        <div className="myregistration">
+          <h2 className="error-message">{error}</h2>
         </div>
-        <div className="myreg-list">
-          {events.length > 0 ? (
-            events.map((event, index) => (
-              <div key={index} className="myregistration-card">
-                <div className="evenameflex">
-                  <button
-                    className="toggle-more"
-                    onClick={() =>
-                      setExpandedIndex(expandedIndex === index ? null : index)
-                    }
-                  >
-                    {expandedIndex === index ? (
-                      <FontAwesomeIcon icon={faArrowUp} />
-                    ) : (
-                      <FontAwesomeIcon icon={faArrowDown} />
-                    )}
-                  </button>
-                </div>
-                <h2 className="event-title">{event.eventName}</h2>
-                <div className="myreg-info">
-                  <p>
-                    <FontAwesomeIcon icon={faCalendarDays} />{" "}
-                    {new Date(event.eventDate).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <FontAwesomeIcon icon={faLocationDot} /> {event.location}
-                  </p>
-                  <p
-                    className={
-                      getEventStatus(event.eventDate) === "Ended"
-                        ? "status-ended"
-                        : "status-confirmed"
-                    }
-                  >
-                    <FontAwesomeIcon
-                      icon={
-                        getEventStatus(event.eventDate) === "Ended"
-                          ? faSquareXmark
-                          : faSquareCheck
+      ) : (
+        <div className="myregistration">
+          <div className="myregister-header">
+            <h1>Registered Events</h1>
+          </div>
+          <div className="myreg-list">
+            {events.length > 0 ? (
+              events.map((event, index) => (
+                <div key={index} className="myregistration-card">
+                  <div className="evenameflex">
+                    <button
+                      className="toggle-more"
+                      onClick={() =>
+                        setExpandedIndex(expandedIndex === index ? null : index)
                       }
-                    />{" "}
-                    {getEventStatus(event.eventDate)}
-                  </p>
-                </div>
+                    >
+                      {expandedIndex === index ? (
+                        <FontAwesomeIcon icon={faArrowUp} />
+                      ) : (
+                        <FontAwesomeIcon icon={faArrowDown} />
+                      )}
+                    </button>
+                  </div>
+                  <h2 className="event-title">{event.eventName}</h2>
+                  <div className="myreg-info">
+                    <p>
+                      <FontAwesomeIcon icon={faCalendarDays} />{" "}
+                      {new Date(event.eventDate).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <FontAwesomeIcon icon={faLocationDot} /> {event.location}
+                    </p>
+                    <p
+                      className={
+                        getEventStatus(event.eventDate) === "Ended"
+                          ? "status-ended"
+                          : "status-confirmed"
+                      }
+                    >
+                      <FontAwesomeIcon
+                        icon={
+                          getEventStatus(event.eventDate) === "Ended"
+                            ? faSquareXmark
+                            : faSquareCheck
+                        }
+                      />{" "}
+                      {getEventStatus(event.eventDate)}
+                    </p>
+                  </div>
 
-                {expandedIndex === index && (
-                  <dl className="event-description">
-                    <div className="flexeveid">
-                      <p className="registered">
-                        Registered:{" "}
-                        {new Date(event.bookedDate).toLocaleDateString()}
-                      </p>
-                      <p className="eventid">ID: {event.eventId}</p>
-                    </div>
-                    {getEventStatus(event.eventDate) === "Confirmed" && (
-                      <dd>
-                        <button
-                          className="cancel-event"
-                          onClick={() => handleCancel(event.eventId)}
-                        >
-                          Cancel Event <FontAwesomeIcon icon={faXmark} />
-                        </button>
-                      </dd>
-                    )}
-                  </dl>
-                )}
-              </div>
-            ))
-          ) : (
-            <p className="no-event">
-              You haven’t registered for any events yet
-            </p>
-          )}
+                  {expandedIndex === index && (
+                    <dl className="event-description">
+                      <div className="flexeveid">
+                        <p className="registered">
+                          Registered:{" "}
+                          {new Date(event.bookedDate).toLocaleDateString()}
+                        </p>
+                        <p className="eventid">ID: {event.eventId}</p>
+                      </div>
+                      {getEventStatus(event.eventDate) === "Confirmed" && (
+                        <dd>
+                          <ButtonLoader
+                            loading={buttonloading}
+                            type="submit"
+                            className="cancel-event"
+                            onClick={() => handleCancel(event.eventId)}
+                          >
+                            Cancel Event <FontAwesomeIcon icon={faXmark} />
+                          </ButtonLoader>
+                        </dd>
+                      )}
+                    </dl>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="no-event">
+                You haven’t registered for any events yet
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

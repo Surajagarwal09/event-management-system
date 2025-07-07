@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import "../../css/LoginRegistration.css";
 import { useAdmin } from "../../context/AdminContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-function AdminLogin({ onClose,openSignup }) {
+import FullScreenLoader from "../../components/FullscreenLoader";
+function AdminLogin({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const { login } = useAdmin();
+  const [loading, setLoading] = useState(false);
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
         "http://localhost:5000/api/admin/login",
         { email, password }
       );
-
       const { token, admin } = response.data;
-      login(token, admin.fullname)
-
-      alert("Admin login successful");
+      login(token, admin.fullname);
       onClose();
-      window.location.href = "/admin/dashboard";
+      navigate("/admin/dashboard", { replace: true });
     } catch (error) {
       setError("Invalid email or password");
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -62,6 +65,7 @@ function AdminLogin({ onClose,openSignup }) {
             <button type="submit">Login</button>
           </div>
           <div className="signup-link">
+            {loading && <FullScreenLoader />}
             <button onClick={openSignup}>Don't have an account? Sign Up</button>
           </div>
         </form>

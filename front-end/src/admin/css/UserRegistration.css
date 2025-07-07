@@ -5,7 +5,7 @@
   padding: 5px;
   margin-left: 240px;
   position: fixed;
-  z-index: 1000;
+  z-index: 999;
   background-color: #0d1117;
   min-width: 100vw;
 }

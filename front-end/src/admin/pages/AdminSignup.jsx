@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "../../css/SignupRegistration.css";
 import axios from "axios";
+import ButtonLoader from "../../components/ButtonLoader";
 
 function AdminSignup({ onClose, openLoginModal }) {
+  const [buttonloading, setButtonloading] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -22,6 +24,8 @@ function AdminSignup({ onClose, openLoginModal }) {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setButtonloading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
         "http://localhost:5000/api/admin/signup",
@@ -35,6 +39,8 @@ function AdminSignup({ onClose, openLoginModal }) {
     } catch (error) {
       setError(error.response?.data.message || "Signup failed. Try again.");
       setSuccess("");
+    } finally {
+      setButtonloading(false);
     }
   };
 
@@ -90,7 +96,13 @@ function AdminSignup({ onClose, openLoginModal }) {
           {success && <p className="success-message">{success}</p>}
 
           <div className="submit-btn">
-            <button type="submit">Sign Up</button>
+            <ButtonLoader
+              loading={buttonloading}
+              type="submit"
+              className="admsignup-btn"
+            >
+              Sign Up
+            </ButtonLoader>
           </div>
           <div className="login-link">
             <button onClick={openLoginModal}>

@@ -2,8 +2,10 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import "../css/AddEvent.css";
 import AdminSidebar from "../component/AdminSidebar";
+import ButtonLoader from "../../components/ButtonLoader";
 
 const AddEvent = () => {
+  const [buttonloading, setButtonloading] = useState(false);
   const [eventData, setEventData] = useState({
     eventName: "",
     eventDate: "",
@@ -29,6 +31,7 @@ const AddEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setButtonloading(true);
 
     const formData = new FormData();
     Object.entries(eventData).forEach(([key, value]) =>
@@ -48,20 +51,20 @@ const AddEvent = () => {
       );
       alert("Event Uploaded Successfully!");
 
-      setEventData(() => ({
+      setEventData({
         eventName: "",
         eventDate: "",
         location: "",
         Homedescription: "",
         eventDescription: "",
-      }));
+      });
 
-      setImages(() => ({
+      setImages({
         coverImage: null,
         image1: null,
         image2: null,
         image3: null,
-      }));
+      });
 
       coverRef.current.value = null;
       image1Ref.current.value = null;
@@ -70,6 +73,8 @@ const AddEvent = () => {
     } catch (error) {
       console.error("Error uploading event:", error);
       alert("Event upload failed.");
+    } finally {
+      setButtonloading(false);
     }
   };
 
@@ -95,6 +100,7 @@ const AddEvent = () => {
             value={eventData.eventName}
             onChange={handleChange}
             required
+            disabled={buttonloading}
           />
           <input
             type="date"
@@ -103,6 +109,7 @@ const AddEvent = () => {
             value={eventData.eventDate}
             onChange={handleChange}
             required
+            disabled={buttonloading}
           />
           <input
             type="text"
@@ -112,6 +119,7 @@ const AddEvent = () => {
             value={eventData.location}
             onChange={handleChange}
             required
+            disabled={buttonloading}
           />
           <textarea
             name="Homedescription"
@@ -121,6 +129,7 @@ const AddEvent = () => {
             value={eventData.Homedescription}
             onChange={handleChange}
             required
+            disabled={buttonloading}
           ></textarea>
           <textarea
             name="eventDescription"
@@ -130,10 +139,10 @@ const AddEvent = () => {
             value={eventData.eventDescription}
             onChange={handleChange}
             required
+            disabled={buttonloading}
           ></textarea>
 
           <div className="file-flex">
-
             <div className="label-flex1">
               <label className="event-label">Cover Image:</label>
               <input
@@ -143,6 +152,7 @@ const AddEvent = () => {
                 className="event-file-input"
                 onChange={handleFileChange}
                 accept="image/*"
+                disabled={buttonloading}
               />
             </div>
 
@@ -155,13 +165,12 @@ const AddEvent = () => {
                 className="event-file-input"
                 onChange={handleFileChange}
                 accept="image/*"
+                disabled={buttonloading}
               />
             </div>
-
           </div>
 
           <div className="file-flex">
-
             <div className="label-flex2">
               <label className="event-label">Image 2:</label>
               <input
@@ -171,6 +180,7 @@ const AddEvent = () => {
                 className="event-file-input"
                 onChange={handleFileChange}
                 accept="image/*"
+                disabled={buttonloading}
               />
             </div>
 
@@ -183,12 +193,18 @@ const AddEvent = () => {
                 className="event-file-input"
                 onChange={handleFileChange}
                 accept="image/*"
+                disabled={buttonloading}
               />
             </div>
           </div>
-          <button type="submit" className="event-submit-button">
+
+          <ButtonLoader
+            type="submit"
+            className="event-submit-button"
+            loading={buttonloading}
+          >
             Upload Event
-          </button>
+          </ButtonLoader>
         </form>
       </div>
     </div>
