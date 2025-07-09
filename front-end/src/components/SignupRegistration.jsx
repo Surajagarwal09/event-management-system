@@ -2,6 +2,8 @@ import "../css/SignupRegistration.css";
 import axios from "axios";
 import { useState } from "react";
 import ButtonLoader from "./ButtonLoader";
+import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 function SignupRegistration({ onClose, openLoginModal }) {
   const [buttonloading, setButtonloading] = useState(false);
@@ -11,9 +13,6 @@ function SignupRegistration({ onClose, openLoginModal }) {
     dob: "",
     phoneno: "",
   });
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handlechange = (e) => {
     setFormData({
@@ -31,15 +30,17 @@ function SignupRegistration({ onClose, openLoginModal }) {
         "http://localhost:5000/api/users/signup",
         formData
       );
-      setSuccess("Registration successful");
-      setError("");
+      toast.success("Registration successful");
       setTimeout(() => {
-        onClose();
-      }, 500);
+        openLoginModal();
+      }, 800);
     } catch (error) {
-      setError(error.response?.data.message || "Signup failed. Try again.");
-      setSuccess("");
-      console.log(error);
+      if (error.response?.status === 400) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
+      // console.log(error);
     } finally {
       setButtonloading(false);
     }
@@ -93,18 +94,14 @@ function SignupRegistration({ onClose, openLoginModal }) {
             onChange={handlechange}
             placeholder="123-456-7890"
           />
-
-          {error && <p className="error-message">{error}</p>}
-          {success && <p className="success-message">{success}</p>}
-
           <div className="submit-btn">
-              <ButtonLoader
-                loading={buttonloading}
-                type="submit"
-                className="signup-btn"
-              >
-                Sign Up
-              </ButtonLoader>
+            <ButtonLoader
+              loading={buttonloading}
+              type="submit"
+              className="signup-btn"
+            >
+              Sign Up
+            </ButtonLoader>
           </div>
           <div className="login-link">
             <button onClick={openLoginModal}>

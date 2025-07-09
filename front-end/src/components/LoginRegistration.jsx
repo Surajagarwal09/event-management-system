@@ -3,11 +3,11 @@ import "../css/LoginRegistration.css";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
 import ButtonLoader from "./ButtonLoader";
+import { toast } from "react-toastify";
 
 function LoginRegistration({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
-  const [error, setError] = useState("");
   const { login } = useUser();
   const [buttonloading, setButtonloading] = useState(false);
 
@@ -20,14 +20,20 @@ function LoginRegistration({ onClose, openSignup }) {
         "http://localhost:5000/api/users/login",
         { email, dob }
       );
-
       const { token, user } = response.data;
       login(token, user.fullname);
-
-      alert("Login successful");
-      onClose();
+      toast.success("Login successfull");
+      setTimeout(() => {
+        onClose();
+      },800);
     } catch (error) {
-      setError("Invalid email or date of birth");
+      if (error.response?.status === 400) {
+        toast.error("Invalid email or date of birth");
+      } else if (error.response?.status === 404) {
+        toast.error("User not found!");
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
       console.log(error);
     } finally {
       setButtonloading(false);
@@ -60,10 +66,12 @@ function LoginRegistration({ onClose, openSignup }) {
             onChange={(e) => setDob(e.target.value)}
           />
 
-          {error && <p className="error-message">{error}</p>}
-
           <div className="logsubmit-btn">
-            <ButtonLoader loading={buttonloading} type="submit" className="login-btn">
+            <ButtonLoader
+              loading={buttonloading}
+              type="submit"
+              className="login-btn"
+            >
               Login
             </ButtonLoader>
           </div>

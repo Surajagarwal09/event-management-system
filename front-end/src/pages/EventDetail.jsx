@@ -13,6 +13,8 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import FullScreenLoader from "../components/FullscreenLoader";
 import ButtonLoader from "../components/ButtonLoader";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function EventDetail() {
   const { id } = useParams();
@@ -87,10 +89,28 @@ function EventDetail() {
     }
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please log in to register for the event.");
+      toast.error("Log in to join the event.");
       setButtonloading(false);
       return;
     }
+
+     const result = await Swal.fire({
+    title: "Register for Event?",
+    text: "Are you sure you want to register for this event?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+    customClass: {
+      popup: "swal2-dark",
+    },
+  });
+
+  if (!result.isConfirmed) {
+    setButtonloading(false);
+    return;
+  }
+
     try {
       await axios.post(
         `http://localhost:5000/api/events/${id}/register`,
@@ -101,11 +121,11 @@ function EventDetail() {
           },
         }
       );
-      alert("Registered successfully!");
+      toast.success("Registered successfully!");
       fetchEventDetails();
     } catch (err) {
-      console.error("Registration failed:", err.response?.data || err);
-      alert(err.response?.data?.message || "Registration failed");
+      // console.error("Registration failed:", err.response?.data || err);
+      toast.error("Registration failed");
     } finally {
       setButtonloading(false);
     }

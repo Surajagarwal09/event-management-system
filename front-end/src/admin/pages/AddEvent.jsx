@@ -3,6 +3,7 @@ import axios from "axios";
 import "../css/AddEvent.css";
 import AdminSidebar from "../component/AdminSidebar";
 import ButtonLoader from "../../components/ButtonLoader";
+import { toast } from "react-toastify";
 
 const AddEvent = () => {
   const [buttonloading, setButtonloading] = useState(false);
@@ -49,7 +50,7 @@ const AddEvent = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      alert("Event Uploaded Successfully!");
+      toast.success("Event Uploaded Successfully!");
 
       setEventData({
         eventName: "",
@@ -72,7 +73,7 @@ const AddEvent = () => {
       image3Ref.current.value = null;
     } catch (error) {
       console.error("Error uploading event:", error);
-      alert("Event upload failed.");
+      toast.error("Event upload failed.");
     } finally {
       setButtonloading(false);
     }

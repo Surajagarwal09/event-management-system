@@ -4,6 +4,8 @@ import { useAdmin } from "../../context/AdminContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import FullScreenLoader from "../../components/FullscreenLoader";
+import { toast } from "react-toastify";
+
 function AdminLogin({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,11 +25,21 @@ function AdminLogin({ onClose, openSignup }) {
       );
       const { token, admin } = response.data;
       login(token, admin.fullname);
-      onClose();
-      navigate("/admin/dashboard", { replace: true });
+      setTimeout(() => {
+        onClose();
+        navigate("/admin/dashboard", { replace: true });
+        toast.success("Login successfull");
+      }, 800);
     } catch (error) {
-      setError("Invalid email or password");
+      if (error.response?.status === 400) {
+        toast.error("Invalid email or Password ");
+      } else if (error.response?.status === 404) {
+        toast.error("User not found!");
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
       console.log(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -58,8 +70,6 @@ function AdminLogin({ onClose, openSignup }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
           />
-
-          {error && <p className="error-message">{error}</p>}
 
           <div className="logsubmit-btn">
             <button type="submit">Login</button>

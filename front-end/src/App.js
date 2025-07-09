@@ -7,7 +7,7 @@ import SignupRegistration from './components/SignupRegistration';
 import LoginRegistration from './components/LoginRegistration';
 import MyRegistrations from './pages/MyRegistrations';
 import RequireUserAuth from './components/UserLoginreq';
-
+import "./css/Swal.css";
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminSignup from './admin/pages/AdminSignup';
 import Dashboard from './admin/pages/Dashboard';

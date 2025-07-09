@@ -1,0 +1,23 @@
+.swal2-dark {
+  background-color: #0d1117 !important;
+  color: #ffffff !important;
+  border-radius: 12px;
+}
+
+.swal2-dark .swal2-title {
+  color: #ffffff !important;
+}
+
+.swal2-dark .swal2-content {
+  color: #d1d5db !important;
+}
+
+.swal2-dark .swal2-confirm {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+.swal2-dark .swal2-cancel {
+  background-color: #238636 !important;
+  color: white !important;
+}

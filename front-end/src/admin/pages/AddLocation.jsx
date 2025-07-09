@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminSidebar from "../component/AdminSidebar";
 import "../css/Addlocation.css";
 import ButtonLoader from "../../components/ButtonLoader";
+import { toast } from "react-toastify";
 
 function Addlocation() {
   const [adlocation, setAdlocation] = useState("");
@@ -26,17 +27,17 @@ function Addlocation() {
       );
 
       if (response.status === 201) {
-        alert("location added successfully.");
+        toast.success("location added successfully.");
         setAdlocation("");
       } else {
-        alert("unexpected response. Try again.");
+        toast.error("unexpected response. Try again.");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        alert("location already exist");
+        toast.error("location already exist");
       } else {
         console.log("error submmitting location:", error);
-        alert("something went wrong adding location try again");
+        toast.error("something went wrong adding location try again");
       }
     } finally {
       setButtonloading(false);

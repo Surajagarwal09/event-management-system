@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../css/SignupRegistration.css";
 import axios from "axios";
 import ButtonLoader from "../../components/ButtonLoader";
+import { toast } from "react-toastify";
 
 function AdminSignup({ onClose, openLoginModal }) {
   const [buttonloading, setButtonloading] = useState(false);
@@ -11,9 +12,6 @@ function AdminSignup({ onClose, openLoginModal }) {
     password: "",
     phoneno: "",
   });
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -31,14 +29,16 @@ function AdminSignup({ onClose, openLoginModal }) {
         "http://localhost:5000/api/admin/signup",
         formData
       );
-      setSuccess("Admin registration successful");
-      setError("");
+      toast.success("Registration successful");
       setTimeout(() => {
-        onClose();
-      }, 500);
+        openLoginModal();
+      }, 800);
     } catch (error) {
-      setError(error.response?.data.message || "Signup failed. Try again.");
-      setSuccess("");
+      if (error.response?.status === 400) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
     } finally {
       setButtonloading(false);
     }
@@ -91,9 +91,6 @@ function AdminSignup({ onClose, openLoginModal }) {
             onChange={handleChange}
             placeholder="123-456-7890"
           />
-
-          {error && <p className="error-message">{error}</p>}
-          {success && <p className="success-message">{success}</p>}
 
           <div className="submit-btn">
             <ButtonLoader

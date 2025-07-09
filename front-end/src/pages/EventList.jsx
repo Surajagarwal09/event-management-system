@@ -10,6 +10,7 @@ import {
   fetchEventsFailure,
 } from "../redux/EventSlice";
 import FullScreenLoader from "../components/FullscreenLoader";
+import { toast } from "react-toastify";
 
 function EventList() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function EventList() {
         setFilteredEvents(response.data);
       } catch (error) {
         dispatch(fetchEventsFailure(error.message));
+        toast.error("Failed to load events. Please try again.");
       }
     };
     fetchEvents();
@@ -43,7 +45,6 @@ function EventList() {
       <Navbar />
       {(loading || filterLoading) && <FullScreenLoader />}
       <Filter onFilterChange={handleFilterChange} />
-      {error && <p className="error">failed to load events</p>}
       {!loading && <EventCard events={filteredEvents} />}
     </div>
   );

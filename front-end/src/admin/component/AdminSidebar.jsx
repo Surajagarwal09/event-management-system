@@ -15,6 +15,7 @@ import {
 import { useUI } from "../../context/UIContext";
 import { useAdmin } from "../../context/AdminContext";
 import FullScreenLoader from "../../components/FullscreenLoader";
+import { toast } from "react-toastify";
 
 function AdminSidebar() {
   const location = useLocation();
@@ -43,7 +44,8 @@ function AdminSidebar() {
     setTimeout(() => {
       logout();
       navigate("/");
-    },800);
+      toast.success("Logged out sucessfully!");
+    }, 800);
   };
 
   useEffect(() => {

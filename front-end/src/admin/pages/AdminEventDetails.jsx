@@ -10,13 +10,14 @@ import {
 import axios from "axios";
 import "../css/AdminEventDetails.css";
 import FullScreenLoader from "../../components/FullscreenLoader";
+import { toast } from "react-toastify";
+
 function AdminEventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
-
   const [error, setError] = useState(false);
 
   const fetchEventDetails = async () => {
@@ -40,18 +41,20 @@ function AdminEventDetails() {
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this event?")) {
+
+    }
       setDeleting(true);
       try {
         await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
-        alert("Event deleted successfully");
+        toast.success("Event deleted successfully");
         navigate("/admin/events");
       } catch (error) {
         console.error("Delete failed:", error);
-        alert("Failed to delete event");
+        toast.error("Failed to delete event");
       } finally {
         setDeleting(false);
       }
-    }
+
   };
 
   const handleUpdate = (e) => {

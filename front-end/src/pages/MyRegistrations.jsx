@@ -16,12 +16,13 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import FullscreenLoader from "../components/FullscreenLoader";
 import ButtonLoader from "../components/ButtonLoader";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function MyRegistrations() {
   const [events, setEvents] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [buttonloading, setButtonloading] = useState(false);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ function MyRegistrations() {
         setEvents(sortedEvents);
       } catch (error) {
         console.error("Failed to fetch user details:", error);
-        setError("Unable to load registrations.");
+        toast.error("Unable to load registrations.");
       } finally {
         setLoading(false);
       }
@@ -74,11 +75,29 @@ function MyRegistrations() {
   };
 
   const handleCancel = async (eventId) => {
+    const result = await Swal.fire({
+      title: "Cancel Event?",
+      text: "Are you sure you want to cancel this event?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      customClass: {
+        popup: "swal2-dark",
+      },
+    });
+
+    if (!result.isConfirmed) return;
+
+    setButtonloading(true);
+
     const token = localStorage.getItem("token");
     if (!token) {
+      toast.error("Please log in first.");
+      setButtonloading(false);
       return;
     }
-    setButtonloading(true);
+
     try {
       const decoded = jwtDecode(token);
       const userId = decoded.id;
@@ -95,8 +114,10 @@ function MyRegistrations() {
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.eventId !== eventId)
       );
+      toast.success("Event cancelled successfully!");
     } catch (error) {
       console.error("Cancellation failed:", error);
+      toast.error("Failed to cancel event.");
     } finally {
       setButtonloading(false);
     }
@@ -107,10 +128,6 @@ function MyRegistrations() {
       <Navbar />
       {loading ? (
         <FullscreenLoader />
-      ) : error ? (
-        <div className="myregistration">
-          <h2 className="error-message">{error}</h2>
-        </div>
       ) : (
         <div className="myregistration">
           <div className="myregister-header">

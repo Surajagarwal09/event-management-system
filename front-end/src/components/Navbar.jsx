@@ -17,6 +17,7 @@ import AdminLogin from "../admin/pages/AdminLogin";
 import AdminSignup from "../admin/pages/AdminSignup";
 import { useUser } from "../context/UserContext";
 import ButtonLoader from "./ButtonLoader";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [showLoginRegistration, setShowLoginRegistration] = useState(false);
@@ -87,6 +88,8 @@ function Navbar() {
       logout();
       setShowSidebar(false);
       navigate("/");
+      setButtonloading(false);
+      toast.success("Logged out successfully!");
     }, 800);
   };
 
