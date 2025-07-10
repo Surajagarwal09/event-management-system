@@ -151,6 +151,7 @@ function EventDetail() {
                   src={`http://localhost:5000/${event.image1}`}
                   className="d-block w-100"
                   alt="Event Image 1"
+                  loading="lazy"
                 />
               </div>
               <div className="carousel-item">
@@ -158,6 +159,7 @@ function EventDetail() {
                   src={`http://localhost:5000/${event.image2}`}
                   className="d-block w-100"
                   alt="Event Image 2"
+                  loading="lazy"
                 />
               </div>
               <div className="carousel-item">
@@ -165,6 +167,7 @@ function EventDetail() {
                   src={`http://localhost:5000/${event.image3}`}
                   className="d-block w-100"
                   alt="Event Image 3"
+                  loading="lazy"
                 />
               </div>
             </div>

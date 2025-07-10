@@ -27,7 +27,8 @@ function EventCard({ events }) {
               <div className="image-date">
                 <img
                   src={`http://localhost:5000/${event.coverImage}`}
-                  alt="Event"
+                  alt={event.eventName}
+                  loading="lazy"
                 />
                 <div className="date-div">
                   <p className="user-card-date">

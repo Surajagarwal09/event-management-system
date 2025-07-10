@@ -161,17 +161,31 @@ const cacelUserRegistration = async (req, res) => {
 };
 
 
-
 const deleteEvent = async (req, res) => {
   try {
     const event = await Event.findByIdAndDelete(req.params.id);
     if (!event) return res.status(404).json({ message: "Event not found" });
 
-    res.status(200).json({ message: "Event Deleted Succesfully" });
+    const imagePaths = [
+      event.coverImage,
+      event.image1,
+      event.image2,
+      event.image3,
+    ];
+
+    imagePaths.forEach((imgPath) => {
+      const fullPath = path.join(__dirname, "..", imgPath); // adjust if path is different
+      if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath);
+      }
+    });
+
+    res.status(200).json({ message: "Event and its images deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "failed to delete Event", error })
+    res.status(500).json({ message: "Failed to delete event", error });
   }
 };
+
 
 
 const updateEvent = async (req, res) => {
