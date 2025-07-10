@@ -3,8 +3,9 @@ import "../css/Filter.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import FullScreenLoader from "./FullscreenLoader";
+import CustomDatePicker from "./Datepicker";
 
-function Filter({ onFilterChange, setFilterLoading, setCityRefreshTrigger }) {
+function Filter({ onFilterChange, setFilterLoading}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
@@ -27,12 +28,16 @@ function Filter({ onFilterChange, setFilterLoading, setCityRefreshTrigger }) {
 
   const handleSearch = async () => {
     setFilterLoading(true);
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const params = new URLSearchParams();
       if (searchQuery) params.append("query", searchQuery);
       if (location) params.append("location", location);
-      if (date) params.append("date", date);
+      if (date instanceof Date && !isNaN(date)) {
+        const formattedDate = date.toISOString().split("T")[0]; // yyyy-mm-dd
+        params.append("date", formattedDate);
+        console.log(formattedDate);
+        
+      }
 
       const response = await fetch(
         `${
@@ -78,11 +83,8 @@ function Filter({ onFilterChange, setFilterLoading, setCityRefreshTrigger }) {
         </div>
       </div>
       <div className="date-loc">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+        <CustomDatePicker date={date} setDate={setDate} />
+
         <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="">Select Location</option>
           {locations.map((loc, index) => (

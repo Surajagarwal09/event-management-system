@@ -123,6 +123,7 @@ function UpdateEvent() {
                 value={eventData.eventDate}
                 className="update-input"
                 onChange={handleChange}
+                placeholder="dd-mm-yyyy"
                 required
               />
               <input

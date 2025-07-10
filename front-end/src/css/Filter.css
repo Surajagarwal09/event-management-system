@@ -44,6 +44,7 @@
     background-color: #212c39;
     color: white;
     padding: 5px;
+    width: 130px;
     border: none;
     min-height: 30px;
     border-radius: 5px;
@@ -51,7 +52,7 @@
 }
 
 .date-loc select {
-    background-color: #212c39;
+    background-color: #212c39 !important;
     color: aliceblue;
     cursor: pointer;
     border: none;

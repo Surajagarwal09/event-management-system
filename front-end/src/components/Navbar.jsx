@@ -48,6 +48,19 @@ function Navbar() {
     showAdminSignup,
   ]);
 
+  useEffect(() => {
+  if (showSidebar) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [showSidebar]);
+
+
   const openSignupModal = () => {
     setShowLoginRegistration(false);
     setShowSignupRegistration(true);

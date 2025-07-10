@@ -100,7 +100,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    top: 69px;
+    top: 0px;
     right: 0;
     width: 250px;
     height: 100vh;
@@ -188,7 +188,7 @@
 .logout {
     margin-top: auto;
     padding-top: 20px;
-    margin-bottom: 70px;
+    margin-bottom: 10px;
 }
 
 .logout button {
@@ -233,12 +233,6 @@
 
 }
 
-@media (max-width:1355px) {
-    .sidebar{
-        margin-top: -2px;
-    }
-}
-
 @media (max-width:770px) {
     .Navbar {
         height: 65px;
@@ -264,11 +258,6 @@
     .hamburger-menu button {
         margin-right: -40px;
     }
-
-    .sidebar {
-        top: 64.5px;
-    }
-
 }
 
 @media(max-width:515px) {
@@ -330,9 +319,5 @@
 
     .sidebar-overlay {
         min-height: 120vh !important;
-    }
-
-    .logout button {
-        margin-bottom: 0px;
     }
 }

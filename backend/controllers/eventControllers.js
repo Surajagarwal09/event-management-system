@@ -257,7 +257,16 @@ const getEventBySearch = async (req, res) => {
 
     if (query) searchParams.eventName = new RegExp(query, "i");
     if (location) searchParams.location = new RegExp(location, "i");
-    if (date) searchParams.eventDate = date;
+    if (date) {
+      const selectedDate = new Date(date);
+      const nextDate = new Date(selectedDate);
+      nextDate.setDate(selectedDate.getDate() + 1);
+
+      searchParams.eventDate = {
+        $gte: selectedDate,
+        $lt: nextDate,
+      };
+    }
 
     const events = await Event.find(searchParams);
 
