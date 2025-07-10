@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
   try {
@@ -20,9 +20,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, dob } = req.body;
+
     const user = await User.findOne({ email }).lean();
     if (!user) return res.status(404).json({ message: "User not found" });
-    if (new Date(user.dob).toISOString().split("T")[0] !== dob) {
+
+    const formattedStoredDob = new Date(user.dob).toLocaleDateString("sv-SE");
+    if (formattedStoredDob !== dob) {
       return res.status(400).json({ message: "Invalid Date of Birth" });
     }
 
@@ -30,9 +33,9 @@ const loginUser = async (req, res) => {
     res.json({ user, token });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error });
-
   }
 };
+
 
 const getUserDetails = async (req, res) => {
   try {
@@ -73,7 +76,7 @@ const getUserDetailsById = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}, "fullname email registeredEvents") 
+    const users = await User.find({}, "fullname email registeredEvents")
       .populate("registeredEvents", "_id")
       .lean();
 
@@ -121,5 +124,5 @@ const getUserRegistrations = async (req, res) => {
 
 
 
-module.exports = { registerUser, loginUser, getUserDetails, getAllUsers,getUserRegistrations,getUserDetailsById };
+module.exports = { registerUser, loginUser, getUserDetails, getAllUsers, getUserRegistrations, getUserDetailsById };
 

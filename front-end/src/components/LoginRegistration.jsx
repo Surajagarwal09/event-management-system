@@ -4,10 +4,11 @@ import axios from "axios";
 import { useUser } from "../context/UserContext";
 import ButtonLoader from "./ButtonLoader";
 import { toast } from "react-toastify";
+import CustomDatePicker from "./Datepicker";
 
 function LoginRegistration({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState(null);
   const { login } = useUser();
   const [buttonloading, setButtonloading] = useState(false);
 
@@ -18,14 +19,20 @@ function LoginRegistration({ onClose, openSignup }) {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/users/login`,
-        { email, dob }
+        {
+          email,
+          dob:
+            dob instanceof Date && !isNaN(dob)
+              ? dob.toLocaleDateString("sv-SE")
+              : "",
+        }
       );
       const { token, user } = response.data;
       login(token, user.fullname);
       toast.success("Login successfull");
       setTimeout(() => {
         onClose();
-      },800);
+      }, 800);
     } catch (error) {
       if (error.response?.status === 400) {
         toast.error("Invalid email or date of birth");
@@ -58,13 +65,7 @@ function LoginRegistration({ onClose, openSignup }) {
           />
 
           <label htmlFor="dob">Date of Birth:</label>
-          <input
-            id="dob"
-            type="date"
-            required
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-          />
+          <CustomDatePicker id="dob" date={dob} setDate={setDob} />
 
           <div className="logsubmit-btn">
             <ButtonLoader

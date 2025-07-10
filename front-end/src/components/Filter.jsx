@@ -33,7 +33,7 @@ function Filter({ onFilterChange, setFilterLoading}) {
       if (searchQuery) params.append("query", searchQuery);
       if (location) params.append("location", location);
       if (date instanceof Date && !isNaN(date)) {
-        const formattedDate = date.toISOString().split("T")[0]; // yyyy-mm-dd
+        const formattedDate = date.toLocaleDateString("sv-SE");
         params.append("date", formattedDate);
         console.log(formattedDate);
         
