@@ -9,26 +9,26 @@ import FullScreenLoader from "../../components/FullscreenLoader";
 
 function UserRegistration() {
   const { userId } = useParams();
-  const [registrations, setRegistrations] = useState([]);
-  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRegistrations = async () => {
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
+    const fetchUserDetails = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/users/${userId}/registrations`
+          `http://localhost:5000/api/users/${userId}/details`
         );
-        setRegistrations(res.data);
+        setUser(res.data.user);
+        console.log(res);
       } catch (err) {
-        console.error("Failed to fetch registrations:", err);
+        console.error("Failed to fetch user details:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRegistrations();
+    fetchUserDetails();
   }, [userId]);
 
   const handleEventdetails = (reg) => {
@@ -43,17 +43,35 @@ function UserRegistration() {
       ) : (
         <>
           <div className="flex-prev">
-            <button
-              className="prev-button"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
+            <button className="prev-button" onClick={() => navigate(-1)}>
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
             <h1 className="registration-title">User's Registered Events</h1>
           </div>
-          <div className="user-registration-container">
+
+          {user && (
+              <div className="useri-flex-box">
+                <h2>User Details</h2>
+              <div className="user-info-box">
+                <p>
+                  <strong>Full Name:</strong> {user.fullname}
+                </p>
+                <p>
+                  <strong>Email:</strong> {user.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {user.phoneno || "N/A"}
+                </p>
+                <p>
+                  <strong>Total Registered Events:</strong>{" "}
+                  {user.registeredEvents.length}
+                </p>
+              </div>
+            </div>
+          )}
+
+            <div className="user-registration-container">
+              <h2>Registered Events</h2>
             <table className="user-registration-table">
               <thead>
                 <tr>
@@ -65,8 +83,8 @@ function UserRegistration() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.length > 0 ? (
-                  registrations.map((reg, idx) => (
+                {user?.registeredEvents.length > 0 ? (
+                  user.registeredEvents.map((reg, idx) => (
                     <tr key={idx} onClick={() => handleEventdetails(reg)}>
                       <td data-label="Event Name">{reg.eventName}</td>
                       <td className="eventon-td" data-label="Event Date">

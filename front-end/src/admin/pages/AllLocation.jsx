@@ -11,6 +11,7 @@ import {
 } from "../../redux/LocationSlice";
 import FullScreenLoader from "../../components/FullscreenLoader";
 import ButtonLoader from "../../components/ButtonLoader";
+import Swal from "sweetalert2";
 
 function AllLocations() {
   const dispatch = useDispatch();
@@ -35,19 +36,32 @@ function AllLocations() {
   }, [dispatch]);
 
   const handleDelete = async (city) => {
-    if (window.confirm(`Are you sure you want to delete "${city}"?`)) {
-      setDeletingCity(city);
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      try {
-        await axios.delete(
-          `http://localhost:5000/api/locations/delete/${city}`
-        );
-        dispatch(deleteLocationSuccess(city));
-      } catch (error) {
-        console.error("Delete failed:", error);
-      } finally {
-        setDeletingCity(null);
-      }
+    setDeletingCity(city);
+
+    const result = await Swal.fire({
+      title: "Delete Location?",
+      text: "Are you sure you want to Delete this Location?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      customClass: {
+        popup: "swal2-dark",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      setDeletingCity(null);
+      return;
+    }
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      await axios.delete(`http://localhost:5000/api/locations/delete/${city}`);
+      dispatch(deleteLocationSuccess(city));
+    } catch (error) {
+      console.error("Delete failed:", error);
+    } finally {
+      setDeletingCity(null);
     }
   };
 

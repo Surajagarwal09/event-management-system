@@ -88,28 +88,29 @@ function EventDetail() {
       return;
     }
     const token = localStorage.getItem("token");
+
     if (!token) {
       toast.error("Log in to join the event.");
       setButtonloading(false);
       return;
     }
 
-     const result = await Swal.fire({
-    title: "Register for Event?",
-    text: "Are you sure you want to register for this event?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes",
-    cancelButtonText: "No",
-    customClass: {
-      popup: "swal2-dark",
-    },
-  });
+    const result = await Swal.fire({
+      title: "Register for Event?",
+      text: "Are you sure you want to register for this event?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      customClass: {
+        popup: "swal2-dark",
+      },
+    });
 
-  if (!result.isConfirmed) {
-    setButtonloading(false);
-    return;
-  }
+    if (!result.isConfirmed) {
+      setButtonloading(false);
+      return;
+    }
 
     try {
       await axios.post(
@@ -243,9 +244,14 @@ function EventDetail() {
                   Event Registered
                 </button>
               ) : (
-                <button className="eventreg" onClick={handleRegister}>
+                <ButtonLoader
+                  onClick={handleRegister}
+                  loading={buttonloading}
+                  type="submit"
+                  className="eventreg"
+                >
                   Register Now
-                </button>
+                </ButtonLoader>
               )}
             </div>
           </div>

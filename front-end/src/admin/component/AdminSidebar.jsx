@@ -85,6 +85,13 @@ function AdminSidebar() {
     return current == path;
   };
 
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 769;
+    if (isMobile && isOpen) {
+      setSidebarOpen(false);
+    }
+  }, [location.pathname]);
+
   return (
     <>
       <div className="admin-topbar">
@@ -96,7 +103,9 @@ function AdminSidebar() {
         <span className="page-name">{currentPage}</span>
       </div>
 
-      {isOpen && <div className="admin-overlay"></div>}
+      {isOpen && (
+        <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
 
       <div className={`admin-sidebar ${isOpen ? "open" : ""}`} ref={sidebarRef}>
         <h2>Hello, {adminName}</h2>

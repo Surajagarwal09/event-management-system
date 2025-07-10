@@ -11,6 +11,8 @@ import axios from "axios";
 import "../css/AdminEventDetails.css";
 import FullScreenLoader from "../../components/FullscreenLoader";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import ButtonLoader from "../../components/ButtonLoader";
 
 function AdminEventDetails() {
   const { id } = useParams();
@@ -18,6 +20,7 @@ function AdminEventDetails() {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [buttonloading, setButtonloading] = useState(false);
   const [error, setError] = useState(false);
 
   const fetchEventDetails = async () => {
@@ -40,21 +43,38 @@ function AdminEventDetails() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
+    setButtonloading(true);
 
+    const result = await Swal.fire({
+      title: "Delete Event?",
+      text: "Are you sure you want to Delete this event?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      customClass: {
+        popup: "swal2-dark",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      setButtonloading(false);
+      return;
     }
-      setDeleting(true);
-      try {
-        await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
-        toast.success("Event deleted successfully");
-        navigate("/admin/events");
-      } catch (error) {
-        console.error("Delete failed:", error);
-        toast.error("Failed to delete event");
-      } finally {
-        setDeleting(false);
-      }
 
+    setDeleting(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
+      toast.success("Event deleted successfully");
+      navigate("/admin/events");
+    } catch (error) {
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete event");
+    } finally {
+      setButtonloading(false);
+      setDeleting(false);
+    }
   };
 
   const handleUpdate = (e) => {
@@ -147,9 +167,13 @@ function AdminEventDetails() {
             <button className="btn-update" onClick={handleUpdate}>
               Update Event
             </button>
-            <button className="btn-delete" onClick={handleDelete}>
+            <ButtonLoader
+              loading={buttonloading}
+              className="btn-delete"
+              onClick={handleDelete}
+            >
               Delete Event
-            </button>
+            </ButtonLoader>
           </div>
         </div>
 
@@ -176,9 +200,13 @@ function AdminEventDetails() {
         <button className="btn-update" onClick={handleUpdate}>
           Update
         </button>
-        <button className="btn-delete" onClick={handleDelete}>
+        <ButtonLoader
+          loading={buttonloading}
+          className="btn-delete"
+          onClick={handleDelete}
+        >
           Delete
-        </button>
+        </ButtonLoader>
       </div>
     </div>
   );

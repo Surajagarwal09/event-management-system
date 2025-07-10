@@ -55,6 +55,22 @@ const getUserDetails = async (req, res) => {
   }
 };
 
+const getUserDetailsById = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json({ message: "User details retrieved", user });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, "fullname email registeredEvents") 
@@ -105,5 +121,5 @@ const getUserRegistrations = async (req, res) => {
 
 
 
-module.exports = { registerUser, loginUser, getUserDetails, getAllUsers,getUserRegistrations };
+module.exports = { registerUser, loginUser, getUserDetails, getAllUsers,getUserRegistrations,getUserDetailsById };
 

@@ -10,7 +10,6 @@ import {
   faCalendarDays,
   faSquareCheck,
   faSquareXmark,
-  faL,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -34,9 +33,11 @@ function MyRegistrations() {
       }
 
       try {
-        // await new Promise((resolve) => setTimeout(resolve, 1000));
+        const decoded = jwtDecode(token);
+        const userId = decoded.id;
+
         const response = await axios.get(
-          "http://localhost:5000/api/users/details",
+          `http://localhost:5000/api/users/${userId}/registrations`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -44,8 +45,7 @@ function MyRegistrations() {
           }
         );
 
-        const registeredEvents = response.data.user.registeredEvents || [];
-        console.log(response);
+        const registeredEvents = response.data || [];
 
         const sortedEvents = registeredEvents.sort((a, b) => {
           const isAEnded = new Date(a.eventDate) < new Date();
@@ -58,7 +58,7 @@ function MyRegistrations() {
 
         setEvents(sortedEvents);
       } catch (error) {
-        console.error("Failed to fetch user details:", error);
+        console.error("Failed to fetch registrations:", error);
         toast.error("Unable to load registrations.");
       } finally {
         setLoading(false);
@@ -111,9 +111,11 @@ function MyRegistrations() {
           },
         }
       );
+
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.eventId !== eventId)
       );
+
       toast.success("Event cancelled successfully!");
     } catch (error) {
       console.error("Cancellation failed:", error);

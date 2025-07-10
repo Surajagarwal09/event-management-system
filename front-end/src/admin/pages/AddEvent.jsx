@@ -50,6 +50,7 @@ const AddEvent = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      
       toast.success("Event Uploaded Successfully!");
 
       setEventData({
