@@ -37,7 +37,7 @@ function MyRegistrations() {
         const userId = decoded.id;
 
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}/registrations`,
+          `${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/registrations`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ function MyRegistrations() {
       const userId = decoded.id;
 
       await axios.post(
-        `http://localhost:5000/api/events/${eventId}/cancel`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${eventId}/cancel`,
         { userId },
         {
           headers: {

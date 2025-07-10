@@ -27,7 +27,7 @@ function SignupRegistration({ onClose, openLoginModal }) {
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/signup",
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`,
         formData
       );
       toast.success("Registration successful");

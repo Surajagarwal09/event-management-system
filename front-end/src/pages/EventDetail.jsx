@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
   faCalendarDays,
-  faL,
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/EventDetail.css";
 import { useParams } from "react-router-dom";
@@ -15,9 +14,11 @@ import FullScreenLoader from "../components/FullscreenLoader";
 import ButtonLoader from "../components/ButtonLoader";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useUser } from "../context/UserContext";
 
 function EventDetail() {
   const { id } = useParams();
+  const { user } = useUser();
   const [event, setEvent] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isEventEnded, setIsEventEnded] = useState(false);
@@ -26,27 +27,16 @@ function EventDetail() {
   const [buttonloading, setButtonloading] = useState(false);
 
   const fetchEventDetails = async () => {
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:5000/api/events/${id}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}`
       );
       setEvent(response.data);
+
       const eventDate = new Date(response.data.eventDate);
       const today = new Date();
       setIsEventEnded(eventDate < today);
-
-      const token = localStorage.getItem("token");
-      if (token) {
-        const decoded = jwtDecode(token);
-        const userId = decoded.id;
-
-        const registered = response.data.registeredusers.some(
-          (user) => user.userId === userId
-        );
-        setIsRegistered(registered);
-      }
     } catch (error) {
       console.error("Error Fetching Events Details:", error);
       setError("Event not found or something went wrong.");
@@ -58,6 +48,29 @@ function EventDetail() {
   useEffect(() => {
     fetchEventDetails();
   }, [id]);
+
+  const checkRegistrationStatus = () => {
+    if (!user.token || !event?.registeredusers) {
+      setIsRegistered(false);
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(user.token);
+      const userId = decoded.id;
+
+      const registered = event.registeredusers.some((u) => u.userId === userId);
+      setIsRegistered(registered);
+    } catch (err) {
+      console.error("Token decode failed", err);
+      setIsRegistered(false);
+    }
+  };
+  useEffect(() => {
+    if (event && user.token) {
+      checkRegistrationStatus();
+    }
+  }, [user.token, event]);
 
   if (loading) {
     return (
@@ -80,16 +93,13 @@ function EventDetail() {
       </div>
     );
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
     setButtonloading(true);
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (isRegistered) {
-      setButtonloading(false);
-      return;
-    }
-    const token = localStorage.getItem("token");
+    e.preventDefault();
 
-    if (!token) {
+    if (isRegistered) return;
+
+    if (!user.token) {
       toast.error("Log in to join the event.");
       setButtonloading(false);
       return;
@@ -114,23 +124,28 @@ function EventDetail() {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/events/${id}/register`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}/register`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
       toast.success("Registered successfully!");
-      fetchEventDetails();
+      setIsRegistered(true);
+      checkRegistrationStatus();
     } catch (err) {
-      // console.error("Registration failed:", err.response?.data || err);
-      toast.error("Registration failed");
+      if (err.response?.status === 400) {
+        toast.error("u have already registered for the event");
+      } else {
+        toast.error("Registration failed");
+      }
     } finally {
       setButtonloading(false);
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -148,7 +163,7 @@ function EventDetail() {
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <img
-                  src={`http://localhost:5000/${event.image1}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image1}`}
                   className="d-block w-100"
                   alt="Event Image 1"
                   loading="lazy"
@@ -156,7 +171,7 @@ function EventDetail() {
               </div>
               <div className="carousel-item">
                 <img
-                  src={`http://localhost:5000/${event.image2}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image2}`}
                   className="d-block w-100"
                   alt="Event Image 2"
                   loading="lazy"
@@ -164,7 +179,7 @@ function EventDetail() {
               </div>
               <div className="carousel-item">
                 <img
-                  src={`http://localhost:5000/${event.image3}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image3}`}
                   className="d-block w-100"
                   alt="Event Image 3"
                   loading="lazy"
@@ -229,7 +244,6 @@ function EventDetail() {
                   <ButtonLoader
                     onClick={handleRegister}
                     loading={buttonloading}
-                    type="submit"
                     className="allreg"
                   >
                     Register Now
@@ -250,7 +264,6 @@ function EventDetail() {
                 <ButtonLoader
                   onClick={handleRegister}
                   loading={buttonloading}
-                  type="submit"
                   className="eventreg"
                 >
                   Register Now

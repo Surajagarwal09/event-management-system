@@ -26,7 +26,7 @@ function EventCard({ events }) {
             >
               <div className="image-date">
                 <img
-                  src={`http://localhost:5000/${event.coverImage}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.coverImage}`}
                   alt={event.eventName}
                   loading="lazy"
                 />

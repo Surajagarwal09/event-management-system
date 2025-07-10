@@ -24,7 +24,7 @@ function AllLocations() {
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/locations/cities"
+          `${process.env.REACT_APP_BACKEND_URL}/api/locations/cities`
         );
         dispatch(fetchLocationsSuccess(res.data.data));
       } catch (error) {
@@ -56,7 +56,7 @@ function AllLocations() {
     }
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
-      await axios.delete(`http://localhost:5000/api/locations/delete/${city}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/locations/delete/${city}`);
       dispatch(deleteLocationSuccess(city));
     } catch (error) {
       console.error("Delete failed:", error);

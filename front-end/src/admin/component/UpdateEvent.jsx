@@ -7,6 +7,7 @@ import "../css/UpdateEvent.css";
 import AdminSidebar from "../component/AdminSidebar";
 import FullScreenLoader from "../../components/FullscreenLoader";
 import ButtonLoader from "../../components/ButtonLoader";
+import { toast } from "react-toastify";
 
 function UpdateEvent() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ function UpdateEvent() {
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/events/${id}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}`
         );
         const data = response.data;
         setEventData({
@@ -45,7 +46,7 @@ function UpdateEvent() {
         });
       } catch (error) {
         console.error("Error fetching event:", error);
-        alert("Failed to load event data.");
+        toast.error("Failed to load event data.");
       } finally {
         setLoading(false);
       }
@@ -74,17 +75,17 @@ function UpdateEvent() {
     setButtonloading(true);
     try {
       await axios.put(
-        `http://localhost:5000/api/events/${id}/update`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}/update`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      alert("Event updated successfully!");
+      toast.success("Event updated successfully!");
       navigate(-1);
     } catch (error) {
       console.error("Error updating event:", error);
-      alert("Event update failed.");
+      toast.error("Event update failed.");
     } finally {
       setButtonloading(false);
     }

@@ -27,7 +27,7 @@ function AdminEventDetails() {
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/events/${id}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}`
       );
       setEvent(response.data);
     } catch (error) {
@@ -65,7 +65,7 @@ function AdminEventDetails() {
     setDeleting(true);
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}/delete`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/events/${id}/delete`);
       toast.success("Event deleted successfully");
       navigate("/admin/events");
     } catch (error) {
@@ -126,19 +126,19 @@ function AdminEventDetails() {
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <img
-                  src={`http://localhost:5000/${event.image1}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image1}`}
                   alt="Event 1"
                 />
               </div>
               <div className="carousel-item">
                 <img
-                  src={`http://localhost:5000/${event.image2}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image2}`}
                   alt="Event 2"
                 />
               </div>
               <div className="carousel-item">
                 <img
-                  src={`http://localhost:5000/${event.image3}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.image3}`}
                   alt="Event 3"
                 />
               </div>

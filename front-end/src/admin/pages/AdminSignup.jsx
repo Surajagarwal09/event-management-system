@@ -26,7 +26,7 @@ function AdminSignup({ onClose, openLoginModal }) {
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/signup",
+       `${process.env.REACT_APP_BACKEND_URL}/api/admin/signup`,
         formData
       );
       toast.success("Registration successful");

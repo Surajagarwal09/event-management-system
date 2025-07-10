@@ -44,7 +44,7 @@ const AddEvent = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/events/create",
+        `${process.env.REACT_APP_BACKEND_URL}/api/events/create`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

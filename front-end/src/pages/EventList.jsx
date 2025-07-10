@@ -23,7 +23,9 @@ function EventList() {
       dispatch(fetchEventsStart());
       try {
         // await new Promise((resolve) => setTimeout(resolve, 1000));
-        const response = await axios.get("http://localhost:5000/api/events");
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/events`
+        );
         dispatch(fetchEventsSuccess(response.data));
         setFilteredEvents(response.data);
       } catch (error) {
@@ -44,7 +46,11 @@ function EventList() {
     <div>
       <Navbar />
       {(loading || filterLoading) && <FullScreenLoader />}
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter
+        onFilterChange={handleFilterChange}
+        setFilterLoading={setFilterLoading}
+      />
+
       {!loading && <EventCard events={filteredEvents} />}
     </div>
   );

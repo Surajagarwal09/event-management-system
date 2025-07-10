@@ -24,7 +24,9 @@ function AdminEvents() {
       dispatch(fetchEventsStart());
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
-        const response = await axios.get("http://localhost:5000/api/events");
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/events`
+        );
         dispatch(fetchEventsSuccess(response.data));
         setFilteredEvents(response.data);
       } catch (error) {
@@ -37,8 +39,8 @@ function AdminEvents() {
 
   const handleFilterChange = (filteredData) => {
     setFilterLoading(true);
-      setFilteredEvents(filteredData.length ? filteredData : []);
-      setFilterLoading(false);
+    setFilteredEvents(filteredData.length ? filteredData : []);
+    setFilterLoading(false);
   };
 
   const handledetailslink = (eventId, e) => {
@@ -60,7 +62,11 @@ function AdminEvents() {
             <div className="filter-section-wrapper">
               {filterLoading && <FullScreenLoader />}
 
-              <Filter onFilterChange={handleFilterChange} />
+              <Filter
+                onFilterChange={handleFilterChange}
+                setFilterLoading={setFilterLoading}
+              />
+
               <h1 className="admin-event-card-header">
                 {filteredEvents.length ? "Filtered Events:" : "All Events:"}
               </h1>
@@ -79,7 +85,7 @@ function AdminEvents() {
                     >
                       <div className="admin-image-date">
                         <img
-                          src={`http://localhost:5000/${event.coverImage}`}
+                          src={`${process.env.REACT_APP_BACKEND_URL}/${event.coverImage}`}
                           alt="Event"
                         />
                         <div className="admin-date-div">

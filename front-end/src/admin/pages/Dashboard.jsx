@@ -16,7 +16,7 @@ function Dashboard() {
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/events/admin/dashboard"
+          `${process.env.REACT_APP_BACKEND_URL}/api/events/admin/dashboard`
         );
         setTotalEvents(res.data.totalEvents);
         setTotalRegisteredUsers(res.data.totalRegisteredUsers);

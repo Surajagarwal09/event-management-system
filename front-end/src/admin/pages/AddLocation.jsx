@@ -20,7 +20,7 @@ function Addlocation() {
     setButtonloading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/locations/add",
+        `${process.env.REACT_APP_BACKEND_URL}/api/locations/add`,
         {
           city: adlocation,
         }

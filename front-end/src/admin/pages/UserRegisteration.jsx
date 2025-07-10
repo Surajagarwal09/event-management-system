@@ -17,7 +17,7 @@ function UserRegistration() {
     const fetchUserDetails = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/users/${userId}/details`
+          `${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/details`
         );
         setUser(res.data.user);
         console.log(res);

@@ -15,7 +15,7 @@ function Allusers() {
     const fetchData = async () => {
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
-        const res = await axios.get("http://localhost:5000/api/users/all");
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/all`);
         setUsers(res.data);
       } catch (err) {
         console.error("Failed to fetch users:", err);

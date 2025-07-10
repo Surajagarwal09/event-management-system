@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 function AdminLogin({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAdmin();
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ function AdminLogin({ onClose, openSignup }) {
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/login",
+        `${process.env.REACT_APP_BACKEND_URL}/api/admin/login`,
         { email, password }
       );
       const { token, admin } = response.data;

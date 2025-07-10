@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../css/Filter.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import FullScreenLoader from "./FullscreenLoader";
 
-function Filter({ onFilterChange }) {
+function Filter({ onFilterChange, setFilterLoading, setCityRefreshTrigger }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [locations, setLocations] = useState([]);
-  const [loadingCities, setLoadingCities] = useState(true);
+  const [loadingCities, setLoadingCities] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/locations/cities")
+    setLoadingCities(true);
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/locations/cities`)
       .then((res) => res.json())
       .then((data) => {
         setLocations(data.data);
@@ -24,6 +26,8 @@ function Filter({ onFilterChange }) {
   }, []);
 
   const handleSearch = async () => {
+    setFilterLoading(true);
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const params = new URLSearchParams();
       if (searchQuery) params.append("query", searchQuery);
@@ -31,7 +35,9 @@ function Filter({ onFilterChange }) {
       if (date) params.append("date", date);
 
       const response = await fetch(
-        `http://localhost:5000/api/events/search?${params.toString()}`
+        `${
+          process.env.REACT_APP_BACKEND_URL
+        }/api/events/search?${params.toString()}`
       );
 
       if (response.status === 404) {
@@ -47,8 +53,14 @@ function Filter({ onFilterChange }) {
       onFilterChange(data.data.length ? data.data : []);
     } catch (error) {
       console.error("Search failed:", error);
+    } finally {
+      setFilterLoading(false);
     }
   };
+
+  if (loadingCities) {
+    return <FullScreenLoader />;
+  }
 
   return (
     <div className="filter">
@@ -73,17 +85,11 @@ function Filter({ onFilterChange }) {
         />
         <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="">Select Location</option>
-          {loadingCities ? (
-            <option disabled>Loading cities...</option>
-          ) : locations.length === 0 ? (
-            <option disabled>No cities available</option>
-          ) : (
-            locations.map((loc, index) => (
-              <option key={index} value={loc}>
-                {loc}
-              </option>
-            ))
-          )}
+          {locations.map((loc, index) => (
+            <option key={index} value={loc}>
+              {loc}
+            </option>
+          ))}
         </select>
       </div>
     </div>

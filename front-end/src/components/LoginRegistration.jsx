@@ -17,7 +17,7 @@ function LoginRegistration({ onClose, openSignup }) {
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/login",
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/login`,
         { email, dob }
       );
       const { token, user } = response.data;
