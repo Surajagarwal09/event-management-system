@@ -3,14 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import ButtonLoader from "./ButtonLoader";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
+import CustomDatePicker from "./Datepicker";
 
 function SignupRegistration({ onClose, openLoginModal }) {
   const [buttonloading, setButtonloading] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
-    dob: "",
+    dob: null, 
     phoneno: "",
   });
 
@@ -24,12 +24,25 @@ function SignupRegistration({ onClose, openLoginModal }) {
   const handleSignup = async (e) => {
     e.preventDefault();
     setButtonloading(true);
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
+      const formattedDOB =
+        formData.dob instanceof Date
+          ? `${formData.dob.getFullYear()}-${String(
+              formData.dob.getMonth() + 1
+            ).padStart(2, "0")}-${String(formData.dob.getDate()).padStart(
+              2,
+              "0"
+            )}`
+          : formData.dob;
+
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`,
-        formData
+        {
+          ...formData,
+          dob: formattedDOB,
+        }
       );
+
       toast.success("Registration successful");
       setTimeout(() => {
         openLoginModal();
@@ -40,7 +53,6 @@ function SignupRegistration({ onClose, openLoginModal }) {
       } else {
         toast.error("Something went wrong. Try again.");
       }
-      // console.log(error);
     } finally {
       setButtonloading(false);
     }
@@ -76,12 +88,11 @@ function SignupRegistration({ onClose, openLoginModal }) {
           />
 
           <label htmlFor="dob">Date of Birth:</label>
-          <input
-            id="dob"
-            type="date"
-            required
-            value={formData.dob}
-            onChange={handlechange}
+          <CustomDatePicker
+            date={formData.dob}
+            setDate={(selectedDate) =>
+              setFormData((prev) => ({ ...prev, dob: selectedDate }))
+            }
           />
 
           <label htmlFor="phoneno">Phone No:</label>
@@ -94,6 +105,7 @@ function SignupRegistration({ onClose, openLoginModal }) {
             onChange={handlechange}
             placeholder="123-456-7890"
           />
+
           <div className="submit-btn">
             <ButtonLoader
               loading={buttonloading}
@@ -103,9 +115,10 @@ function SignupRegistration({ onClose, openLoginModal }) {
               Sign Up
             </ButtonLoader>
           </div>
+
           <div className="login-link">
             <button onClick={openLoginModal}>
-              Already have an account?Login
+              Already have an account? Login
             </button>
           </div>
         </form>

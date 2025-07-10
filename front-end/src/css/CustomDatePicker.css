@@ -1,17 +1,67 @@
-.air-datepicker{
-    z-index: 1007;
-    margin-top: -30px;
+.air-datepicker {
+  z-index: 1007;
 }
+
 .datepicker-overlay {
   position: fixed;
   inset: 0;
-  background-color: transparent; 
-  z-index: 1006; 
+  background-color: transparent;
+  z-index: 1006;
 }
 
-.fontc-icon{
-    margin-left: -20px;
+.custom-datepicker-input.admin-input {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 50vw;
+}
+
+.custom-datepicker-input.admin-input:focus {
+  border-color: #238636;
+  outline: none;
+}
+
+.fontc-icon {
+  margin-left: -20px;
+  color: rgb(191, 197, 202);
+  cursor: pointer;
+}
+
+.fontc-icon.admin {
+  margin-left: -30px;
+}
+
+@media (max-width:1000px) {
+  .custom-datepicker-input.admin-input {
+    width: 56vw;
+  }
+}
+
+@media (max-width:769px) {
+  .custom-datepicker-input.admin-input {
+    width: 80vw;
+  }
+}
+
+@media (max-width:530px) {
+  .custom-datepicker-input.admin-input {
+    width: 75vw;
+  }
+}
+
+@media (max-width:450px) {
+  .custom-datepicker-input.admin-input {
+    width: 80vw;
+    margin-left: -10px;
+    font-size: 14px
+  }
+
+  .fontc-icon.admin {
+    margin-left: -30px;
     color: rgb(191, 197, 202);
     cursor: pointer;
+  }
 }
-

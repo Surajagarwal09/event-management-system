@@ -87,10 +87,6 @@
   width: 50vw;
 }
 
-.update-upload-container input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
 .update-input:focus,
 .update-textarea:focus {
   border-color: #238636;
@@ -132,10 +128,11 @@
   cursor: pointer;
 }
 
-.update-file-flex{
+.update-file-flex {
   display: flex;
   gap: 15px;
 }
+
 .update-image-flex1,
 .update-image-flex2 {
   display: flex;
@@ -144,7 +141,7 @@
 }
 
 .update-label-flex1,
-.update-label-flex2{
+.update-label-flex2 {
   display: flex;
   gap: 20px;
   flex-direction: column;
@@ -210,7 +207,7 @@
 @media (max-width:530px) {
   .update-form {
     max-width: 85vw;
-    margin-top:60px;
+    margin-top: 60px;
   }
 
   .update-input,
@@ -223,7 +220,7 @@
     width: 35.6vw !important;
   }
 
-  .update-file-flex label{
+  .update-file-flex label {
     font-size: 15px;
   }
 }

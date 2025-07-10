@@ -8,15 +8,17 @@ import AdminSidebar from "../component/AdminSidebar";
 import FullScreenLoader from "../../components/FullscreenLoader";
 import ButtonLoader from "../../components/ButtonLoader";
 import { toast } from "react-toastify";
+import CustomDatePicker from "../../components/Datepicker";
 
 function UpdateEvent() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [buttonloading, setButtonloading] = useState(false);
+
   const [eventData, setEventData] = useState({
     eventName: "",
-    eventDate: "",
+    eventDate: null,
     location: "",
     Homedescription: "",
     eventDescription: "",
@@ -31,7 +33,6 @@ function UpdateEvent() {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}`
@@ -39,7 +40,7 @@ function UpdateEvent() {
         const data = response.data;
         setEventData({
           eventName: data.eventName,
-          eventDate: data.eventDate.split("T")[0],
+          eventDate: new Date(data.eventDate),
           location: data.location,
           Homedescription: data.Homedescription,
           eventDescription: data.eventDescription,
@@ -65,14 +66,31 @@ function UpdateEvent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setButtonloading(true);
+
+    const formattedDate =
+      eventData.eventDate instanceof Date
+        ? `${eventData.eventDate.getFullYear()}-${String(
+            eventData.eventDate.getMonth() + 1
+          ).padStart(2, "0")}-${String(eventData.eventDate.getDate()).padStart(
+            2,
+            "0"
+          )}`
+        : eventData.eventDate;
+
     const formData = new FormData();
-    Object.entries(eventData).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
+    formData.append("eventDate", formattedDate);
+
+    Object.entries(eventData).forEach(([key, value]) => {
+      if (key !== "eventDate") {
+        formData.append(key, value);
+      }
+    });
+
     Object.entries(images).forEach(([key, value]) => {
       if (value) formData.append(key, value);
     });
-    setButtonloading(true);
+
     try {
       await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/api/events/${id}/update`,
@@ -117,15 +135,20 @@ function UpdateEvent() {
                 onChange={handleChange}
                 required
               />
-              <input
-                type="date"
+
+              <CustomDatePicker
+                date={eventData.eventDate}
                 name="eventDate"
-                value={eventData.eventDate}
-                className="update-input"
-                onChange={handleChange}
-                placeholder="dd-mm-yyyy"
-                required
+                className="update-date-input"
+                setDate={(selectedDate) =>
+                  setEventData((prev) => ({
+                    ...prev,
+                    eventDate: selectedDate,
+                  }))
+                }
+                mode="admin"
               />
+
               <input
                 type="text"
                 name="location"

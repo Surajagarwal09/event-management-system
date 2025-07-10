@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import "../css/CustomDatePicker.css";
 
-const CustomDatePicker = ({ date, setDate }) => {
+const CustomDatePicker = ({ date, setDate,mode = "user" }) => {
   const inputRef = useRef(null);
   const datepickerRef = useRef(null);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -16,7 +16,7 @@ const CustomDatePicker = ({ date, setDate }) => {
       locale: localeEn,
       dateFormat: "dd-MM-yyyy",
       autoClose: true,
-      isMobile: false,
+      isMobile: true,
       selectedDates: date ? [date] : [],
       buttons: [
         {
@@ -58,13 +58,15 @@ const CustomDatePicker = ({ date, setDate }) => {
         ref={inputRef}
         placeholder="dd-mm-yyyy"
         readOnly
-        className="custom-datepicker-input"
+        className={`custom-datepicker-input ${
+          mode === "admin" ? "admin-input" : ""
+        }`}
         required
       />
       <FontAwesomeIcon
         icon={faCalendarDay}
         onClick={handleClick}
-        className="fontc-icon"
+        className={`fontc-icon ${mode}`}
       />
       {isPickerOpen && (
         <div

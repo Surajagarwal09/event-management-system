@@ -4,12 +4,12 @@ import "../css/AddEvent.css";
 import AdminSidebar from "../component/AdminSidebar";
 import ButtonLoader from "../../components/ButtonLoader";
 import { toast } from "react-toastify";
-
+import CustomDatePicker from "../../components/Datepicker";
 const AddEvent = () => {
   const [buttonloading, setButtonloading] = useState(false);
   const [eventData, setEventData] = useState({
     eventName: "",
-    eventDate: "",
+    eventDate: null,
     location: "",
     Homedescription: "",
     eventDescription: "",
@@ -34,10 +34,25 @@ const AddEvent = () => {
     e.preventDefault();
     setButtonloading(true);
 
+    const formattedDate =
+      eventData.eventDate instanceof Date
+        ? `${eventData.eventDate.getFullYear()}-${String(
+            eventData.eventDate.getMonth() + 1
+          ).padStart(2, "0")}-${String(eventData.eventDate.getDate()).padStart(
+            2,
+            "0"
+          )}`
+        : eventData.eventDate;
+
     const formData = new FormData();
-    Object.entries(eventData).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
+    formData.append("eventDate", formattedDate);
+
+    Object.entries(eventData).forEach(([key, value]) => {
+      if (key !== "eventDate") {
+        formData.append(key, value);
+      }
+    });
+
     Object.entries(images).forEach(([key, value]) =>
       formData.append(key, value)
     );
@@ -50,12 +65,12 @@ const AddEvent = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      
+
       toast.success("Event Uploaded Successfully!");
 
       setEventData({
         eventName: "",
-        eventDate: "",
+        eventDate: null,
         location: "",
         Homedescription: "",
         eventDescription: "",
@@ -104,15 +119,15 @@ const AddEvent = () => {
             required
             disabled={buttonloading}
           />
-          <input
-            type="date"
-            name="eventDate"
-            className="event-input"
-            value={eventData.eventDate}
-            onChange={handleChange}
-            required
-            disabled={buttonloading}
+          <CustomDatePicker
+             className="event-input"
+            date={eventData.eventDate}
+            setDate={(selectedDate) =>
+              setEventData((prev) => ({ ...prev, eventDate: selectedDate }))
+            }
+            mode="admin"
           />
+
           <input
             type="text"
             name="location"
@@ -123,6 +138,7 @@ const AddEvent = () => {
             required
             disabled={buttonloading}
           />
+
           <textarea
             name="Homedescription"
             placeholder="Home Description"
@@ -133,6 +149,7 @@ const AddEvent = () => {
             required
             disabled={buttonloading}
           ></textarea>
+
           <textarea
             name="eventDescription"
             placeholder="Event Description"
