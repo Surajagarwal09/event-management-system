@@ -92,6 +92,18 @@ function AdminSidebar() {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    const body = document.body;
+
+    if (isOpen && window.innerWidth <= 769) {
+      body.classList.add("no-scroll");
+    } else {
+      body.classList.remove("no-scroll");
+    }
+
+    return () => body.classList.remove("no-scroll");
+  }, [isOpen]);
+
   return (
     <>
       <div className="admin-topbar">
@@ -108,50 +120,57 @@ function AdminSidebar() {
       )}
 
       <div className={`admin-sidebar ${isOpen ? "open" : ""}`} ref={sidebarRef}>
-        <h2>Hello, {adminName}</h2>
-        <hr className="adminhr" />
-        <nav>
-          <ul>
-            <li className={isActive("/admin/dashboard") ? "active" : ""}>
-              <Link to="/admin/dashboard">
-                Dashboard &nbsp;
-                <FontAwesomeIcon icon={faTachometerAlt} />
-              </Link>
-            </li>
-            <li className={isActive("/admin/events") ? "active" : ""}>
-              <Link to="/admin/events">
-                Event List &nbsp;
-                <FontAwesomeIcon icon={faListUl} />
-              </Link>
-            </li>
-            <li className={isActive("/admin/events/new") ? "active" : ""}>
-              <Link to="/admin/events/new">
-                Add New Event &nbsp;
-                <FontAwesomeIcon icon={faFileCirclePlus} />
-              </Link>
-            </li>
-            <li className={isActive("/admin/events/location") ? "active" : ""}>
-              <Link to="/admin/events/location">
-                Locations &nbsp;
-                <FontAwesomeIcon icon={faLocationDot} />
-              </Link>
-            </li>
-            <li
-              className={isActive("/admin/events/Addlocation") ? "active" : ""}
-            >
-              <Link to="/admin/events/Addlocation">
-                Add New Location &nbsp;
-                <FontAwesomeIcon icon={faLocationCrosshairs} />
-              </Link>
-            </li>
-            <li className={isActive("/admin/users") ? "active" : ""}>
-              <Link to="/admin/users">
-                All Users &nbsp;
-                <FontAwesomeIcon icon={faUsers} />
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <div className="admin-sidebar-content">
+          <h2>Hello, {adminName}</h2>
+          <hr className="adminhr" />
+          <nav>
+            <ul>
+              <li className={isActive("/admin/dashboard") ? "active" : ""}>
+                <Link to="/admin/dashboard">
+                  Dashboard &nbsp;
+                  <FontAwesomeIcon icon={faTachometerAlt} />
+                </Link>
+              </li>
+              <li className={isActive("/admin/events") ? "active" : ""}>
+                <Link to="/admin/events">
+                  Event List &nbsp;
+                  <FontAwesomeIcon icon={faListUl} />
+                </Link>
+              </li>
+              <li className={isActive("/admin/events/new") ? "active" : ""}>
+                <Link to="/admin/events/new">
+                  Add New Event &nbsp;
+                  <FontAwesomeIcon icon={faFileCirclePlus} />
+                </Link>
+              </li>
+              <li
+                className={isActive("/admin/events/location") ? "active" : ""}
+              >
+                <Link to="/admin/events/location">
+                  Locations &nbsp;
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </Link>
+              </li>
+              <li
+                className={
+                  isActive("/admin/events/Addlocation") ? "active" : ""
+                }
+              >
+                <Link to="/admin/events/Addlocation">
+                  Add New Location &nbsp;
+                  <FontAwesomeIcon icon={faLocationCrosshairs} />
+                </Link>
+              </li>
+              <li className={isActive("/admin/users") ? "active" : ""}>
+                <Link to="/admin/users">
+                  All Users &nbsp;
+                  <FontAwesomeIcon icon={faUsers} />
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
         <div className="logout-button">
           {loading && <FullScreenLoader />}
           <button onClick={handleLogout}>

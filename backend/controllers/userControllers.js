@@ -1,17 +1,33 @@
 const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const registerUser = async (req, res) => {
   try {
-    const { fullname, email, dob, phoneno } = req.body;
+    const { fullname, email, phoneno, password } = req.body;
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "User already exists" });
+    if (existingUser)
+      return res.status(400).json({ message: "User already exists" });
 
-    const newUser = await User.create({ fullname, email, dob, phoneno });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    res.status(201).json({ message: "User registered successfully", user: newUser });
+    const newUser = await User.create({
+      fullname,
+      email,
+      phoneno,
+      password: hashedPassword,
+    });
+
+    res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        _id: newUser._id,
+        fullname: newUser.fullname,
+        email: newUser.email,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Registration failed", error });
   }
@@ -19,22 +35,33 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, dob } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).lean();
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
 
-    const formattedStoredDob = new Date(user.dob).toLocaleDateString("sv-SE");
-    if (formattedStoredDob !== dob) {
-      return res.status(400).json({ message: "Invalid Date of Birth" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     const token = generateToken(user._id);
-    res.json({ user, token });
+
+    res.json({
+      user: {
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+      },
+      token,
+    });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error });
   }
 };
+
+
 
 
 const getUserDetails = async (req, res) => {

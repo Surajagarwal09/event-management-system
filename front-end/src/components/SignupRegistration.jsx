@@ -3,15 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import ButtonLoader from "./ButtonLoader";
 import { toast } from "react-toastify";
-import CustomDatePicker from "./Datepicker";
 
 function SignupRegistration({ onClose, openLoginModal }) {
   const [buttonloading, setButtonloading] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
-    dob: null, 
     phoneno: "",
+    password: "",
   });
 
   const handlechange = (e) => {
@@ -25,22 +24,9 @@ function SignupRegistration({ onClose, openLoginModal }) {
     e.preventDefault();
     setButtonloading(true);
     try {
-      const formattedDOB =
-        formData.dob instanceof Date
-          ? `${formData.dob.getFullYear()}-${String(
-              formData.dob.getMonth() + 1
-            ).padStart(2, "0")}-${String(formData.dob.getDate()).padStart(
-              2,
-              "0"
-            )}`
-          : formData.dob;
-
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/users/signup`,
-        {
-          ...formData,
-          dob: formattedDOB,
-        }
+        formData
       );
 
       toast.success("Registration successful");
@@ -87,14 +73,6 @@ function SignupRegistration({ onClose, openLoginModal }) {
             placeholder="forexample@gmail.com"
           />
 
-          <label htmlFor="dob">Date of Birth:</label>
-          <CustomDatePicker
-            date={formData.dob}
-            setDate={(selectedDate) =>
-              setFormData((prev) => ({ ...prev, dob: selectedDate }))
-            }
-          />
-
           <label htmlFor="phoneno">Phone No:</label>
           <input
             id="phoneno"
@@ -104,6 +82,16 @@ function SignupRegistration({ onClose, openLoginModal }) {
             value={formData.phoneno}
             onChange={handlechange}
             placeholder="123-456-7890"
+          />
+
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password"
+            type="password"
+            required
+            value={formData.password}
+            onChange={handlechange}
+            placeholder="Enter a strong password"
           />
 
           <div className="submit-btn">
@@ -117,7 +105,7 @@ function SignupRegistration({ onClose, openLoginModal }) {
           </div>
 
           <div className="login-link">
-            <button onClick={openLoginModal}>
+            <button type="button" onClick={openLoginModal}>
               Already have an account? Login
             </button>
           </div>

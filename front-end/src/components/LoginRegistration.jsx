@@ -4,44 +4,40 @@ import axios from "axios";
 import { useUser } from "../context/UserContext";
 import ButtonLoader from "./ButtonLoader";
 import { toast } from "react-toastify";
-import CustomDatePicker from "./Datepicker";
 
 function LoginRegistration({ onClose, openSignup }) {
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState(null);
+  const [password, setPassword] = useState("");
   const { login } = useUser();
   const [buttonloading, setButtonloading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setButtonloading(true);
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/users/login`,
         {
           email,
-          dob:
-            dob instanceof Date && !isNaN(dob)
-              ? dob.toLocaleDateString("sv-SE")
-              : "",
+          password,
         }
       );
+
       const { token, user } = response.data;
       login(token, user.fullname);
-      toast.success("Login successfull");
+      toast.success("Login successful");
       setTimeout(() => {
         onClose();
       }, 800);
     } catch (error) {
       if (error.response?.status === 400) {
-        toast.error("Invalid email or date of birth");
+        toast.error("Invalid email or password");
       } else if (error.response?.status === 404) {
         toast.error("User not found!");
       } else {
         toast.error("Something went wrong. Try again.");
       }
-      console.log(error);
     } finally {
       setButtonloading(false);
     }
@@ -64,8 +60,15 @@ function LoginRegistration({ onClose, openSignup }) {
             placeholder="forexample@gmail.com"
           />
 
-          <label htmlFor="dob">Date of Birth:</label>
-          <CustomDatePicker id="dob" date={dob} setDate={setDob} />
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+          />
 
           <div className="logsubmit-btn">
             <ButtonLoader
@@ -78,7 +81,9 @@ function LoginRegistration({ onClose, openSignup }) {
           </div>
 
           <div className="signup-link">
-            <button onClick={openSignup}>Don't have an account? Sign Up</button>
+            <button type="button" onClick={openSignup}>
+              Don't have an account? Sign Up
+            </button>
           </div>
         </form>
       </div>

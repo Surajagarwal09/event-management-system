@@ -17,34 +17,39 @@ function EventCard({ events }) {
         </div>
       ) : (
         <div className="user-event-cards">
-          {events.map((event, index) => (
-            <div
-              key={index}
-              className="user-event-card"
-              onClick={() => navigate(`/EventDetails/${event._id}`)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="image-date">
-                <img
-                  src={`${process.env.REACT_APP_BACKEND_URL}/${event.coverImage}`}
-                  alt={event.eventName}
-                  loading="lazy"
-                />
-                <div className="date-div">
-                  <p className="user-card-date">
-                    Date: {new Date(event.eventDate).toLocaleDateString()}
-                  </p>
+          {events
+            .slice()
+            .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate)) // Sort by date ascending
+            .map((event, index) => (
+              <div
+                key={index}
+                className="user-event-card"
+                onClick={() => navigate(`/EventDetails/${event._id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="image-date">
+                  <img
+                    src={`${process.env.REACT_APP_BACKEND_URL}/${event.coverImage}`}
+                    alt={event.eventName}
+                    loading="lazy"
+                  />
+                  <div className="date-div">
+                    <p className="user-card-date">
+                      Date: {new Date(event.eventDate).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                <div className="user-event-card-content">
+                  <h2 className="user-card-title">{event.eventName}</h2>
+                  <div className="user-left-content">
+                    <p className="user-card-location">
+                      Location: {event.location}
+                    </p>
+                    <p className="user-card-desc">{event.Homedescription}</p>
+                  </div>
                 </div>
               </div>
-              <div className="user-event-card-content">
-                <h2 className="user-card-title">{event.eventName}</h2>
-                <div className="user-left-content">
-                  <p className="user-card-location">Location: {event.location}</p>
-                  <p className="user-card-desc">{event.Homedescription}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>

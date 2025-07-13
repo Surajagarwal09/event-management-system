@@ -1,6 +1,6 @@
 .admin-sidebar {
   width: 240px;
-  height: 100%;
+  height: 100dvh;
   padding: 20px;
   border-right: 1px solid #32dd10;
   background-color: #151b23;
@@ -10,8 +10,15 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   z-index: 1003;
+}
+
+.admin-sidebar-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .adminhr {
@@ -78,6 +85,7 @@
   font-weight: bold;
   transition: transform 0.2s ease;
   border-radius: 5px;
+
 }
 
 .logout-button button:active {
@@ -150,8 +158,25 @@
 
 }
 
+.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
 
 @media (max-width: 769px) {
+  .logout-button {
+    display: flex;
+    margin-top: auto;
+    width: 220px;
+    margin-left: -12px;
+    padding: 10px 0;
+    padding-bottom: calc(env(safe-area-inset-bottom, 20px) + 15px);
+    position: sticky;
+    bottom: 0;
+    justify-content: center;
+  }
+
   .admin-sidebar {
     position: fixed;
     top: 0px;

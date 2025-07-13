@@ -207,11 +207,14 @@
 
 @media (max-width:431px){
 
+  
   .myregistration-card {
     min-width: 75vw;
     max-width: 75vw;
   }
-
+  .flexeveid p{
+    font-size: 14px;
+  }
 }
 @media (max-width:410px){
 

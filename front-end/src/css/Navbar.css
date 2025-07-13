@@ -103,7 +103,8 @@
     top: 0px;
     right: 0;
     width: 250px;
-    height: 100vh;
+    justify-content: flex-start;
+    height: 100dvh;
     background: #151b23;
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -188,8 +189,9 @@
 .logout {
     margin-top: auto;
     padding-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: env(safe-area-inset-bottom, 20px);
 }
+
 
 .logout button {
     width: 100%;
@@ -291,7 +293,6 @@
         font-size: 14px;
         margin-top: 0px;
     }
-
 }
 
 @media(max-width:380px) {

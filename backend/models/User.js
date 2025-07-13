@@ -18,6 +18,11 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    password: {
+        type: String,
+        required: [true, "Password is required"],
+        minlength: [6, "Password must be at least 6 characters long"],
+    },
     registeredEvents: [{
         eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
         eventName: { type: String, require: true },

@@ -40,7 +40,8 @@ body {
     border-bottom-right-radius: 10px;
     padding: 5px;
     margin-bottom: 5px;
-}
+    /* min-height: 140px; */
+} 
 
 .user-event-card img {
     width: 100%;
@@ -115,6 +116,15 @@ body {
     font-size: 35px;
 }
 
+@media (max-width:1363px) {
+        .user-event-card-lists {
+        justify-content: center;
+        align-items: center;
+        margin-left: 50px;
+        margin-right: 0px;
+    }
+
+}
 
 @media (max-width:1241px) {
 
@@ -218,12 +228,17 @@ body {
 @media (max-width:481px) {
 
     .user-event-card-lists {
+        margin-top: -15px;
         margin-left: 10px;
         margin-right: 10px;
     }
 
     .user-event-card-content {
         width: 186px;
+        min-height: 90px;
+    }
+        .user-event-card-content h2 {
+        font-size: 14px !important;
     }
 
     .date-div {
@@ -250,6 +265,9 @@ body {
 
     .user-no-events-message {
         font-size: 35px;
+    }
+    .user-card-desc{
+        display: none;
     }
 }
 

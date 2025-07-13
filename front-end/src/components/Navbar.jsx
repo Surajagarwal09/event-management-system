@@ -49,17 +49,16 @@ function Navbar() {
   ]);
 
   useEffect(() => {
-  if (showSidebar) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+    if (showSidebar) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [showSidebar]);
-
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showSidebar]);
 
   const openSignupModal = () => {
     setShowLoginRegistration(false);
@@ -187,39 +186,43 @@ function Navbar() {
             className={`sidebar ${sidebarVisible ? "open" : ""}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="username">
-              <span>Hi, {user.fullName ? user.fullName : "User"}</span>
-              <hr className="hrtag" />
-            </div>
+            <div className="sidebar-content">
+              <div className="username">
+                <span>Hi, {user.fullName ? user.fullName : "User"}</span>
+                <hr className="hrtag" />
+              </div>
 
-            <div className="sidebarbutton">
-              <Link
-                to="/myregistrations"
-                className={`side-nav-link ${
-                  !user.fullName ? "disabled-link" : ""
-                }${
-                  location.pathname === "/myregistrations" ? "active-link" : ""
-                }`}
-                onClick={(e) => {
-                  if (!user.fullName) {
-                    e.preventDefault();
-                  } else {
+              <div className="sidebarbutton">
+                <Link
+                  to="/myregistrations"
+                  className={`side-nav-link ${
+                    !user.fullName ? "disabled-link" : ""
+                  } ${
+                    location.pathname === "/myregistrations"
+                      ? "active-link"
+                      : ""
+                  }`}
+                  onClick={(e) => {
+                    if (!user.fullName) {
+                      e.preventDefault();
+                    } else {
+                      setShowSidebar(false);
+                    }
+                  }}
+                >
+                  <FontAwesomeIcon icon={faClipboardList} /> My Registrations
+                </Link>
+
+                <button
+                  className="dashboardbut"
+                  onClick={() => {
+                    setShowAdminLogin(true);
                     setShowSidebar(false);
-                  }
-                }}
-              >
-                <FontAwesomeIcon icon={faClipboardList} /> My Registrations
-              </Link>
-
-              <button
-                className="dashboardbut"
-                onClick={() => {
-                  setShowAdminLogin(true);
-                  setShowSidebar(false);
-                }}
-              >
-                <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
-              </button>
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
+                </button>
+              </div>
             </div>
 
             {user.fullName && (
