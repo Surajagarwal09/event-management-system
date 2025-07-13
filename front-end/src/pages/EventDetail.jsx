@@ -132,12 +132,28 @@ function EventDetail() {
           },
         }
       );
+
       toast.success("Registered successfully!");
+
+      const decoded = jwtDecode(user.token);
+      const userId = decoded.id;
+
+      setEvent((prevEvent) => ({
+        ...prevEvent,
+        registeredusers: [
+          ...(prevEvent?.registeredusers || []),
+          {
+            userId,
+            fullname: user.fullname,
+          },
+        ],
+      }));
+
       setIsRegistered(true);
       checkRegistrationStatus();
     } catch (err) {
       if (err.response?.status === 400) {
-        toast.error("u have already registered for the event");
+        toast.error("You have already registered for the event");
       } else {
         toast.error("Registration failed");
       }
